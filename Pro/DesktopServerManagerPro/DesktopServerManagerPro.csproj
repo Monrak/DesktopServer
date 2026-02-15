@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>DesktopServerManagerPro</AssemblyName>
+    <RootNamespace>DesktopServerManagerPro</RootNamespace>
+    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+    <Version>2.0.0</Version>
+    <Authors>MonrakNet Technology</Authors>
+    <Company>Monrak Net Co., Ltd.</Company>
+    <Product>Desktop Server Pro</Product>
+    <Description>Next-Gen Local Development Environment.|A powerful, easy-to-use professional stack for Windows developers.|Features integrated Apache 2.4, MySQL 8.0, and a hybrid PHP engine supporting legacy and modern versions (5.6, 7.4, 8.2) simultaneously.|Built for performance, security, and the future of local development.</Description>
+    <Copyright>Copyright © 2026 Monrak Net Protocol</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="app_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\app_icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+
+</Project>

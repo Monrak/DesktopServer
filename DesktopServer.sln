@@ -1,0 +1,47 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerManager", "Lite\DesktopServerManager\DesktopServerManager.csproj", "{B8D8D8D8-D8D8-D8D8-D8D8-D8D8D8D8D8D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerSetup", "Lite\DesktopServerSetup\DesktopServerSetup.csproj", "{C9C9C9C9-C9C9-C9C9-C9C9-C9C9C9C9C9C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerManagerPro", "Pro\DesktopServerManagerPro\DesktopServerManagerPro.csproj", "{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerSetupPro", "Pro\DesktopServerSetupPro\DesktopServerSetupPro.csproj", "{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lite", "Lite", "{A1A1A1A1-A1A1-A1A1-A1A1-A1A1A1A1A1A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pro", "Pro", "{B2B2B2B2-B2B2-B2B2-B2B2-B2B2B2B2B2B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8D8D8D8-D8D8-D8D8-D8D8-D8D8D8D8D8D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D8D8D8-D8D8-D8D8-D8D8-D8D8D8D8D8D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D8D8D8-D8D8-D8D8-D8D8-D8D8D8D8D8D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D8D8D8-D8D8-D8D8-D8D8-D8D8D8D8D8D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C9C9C9-C9C9-C9C9-C9C9-C9C9C9C9C9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C9C9C9-C9C9-C9C9-C9C9-C9C9C9C9C9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C9C9C9-C9C9-C9C9-C9C9-C9C9C9C9C9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C9C9C9-C9C9-C9C9-C9C9-C9C9C9C9C9C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8D8D8D8-D8D8-D8D8-D8D8-D8D8D8D8D8D8} = {A1A1A1A1-A1A1-A1A1-A1A1-A1A1A1A1A1A1}
+		{C9C9C9C9-C9C9-C9C9-C9C9-C9C9C9C9C9C9} = {A1A1A1A1-A1A1-A1A1-A1A1-A1A1A1A1A1A1}
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1} = {B2B2B2B2-B2B2-B2B2-B2B2-B2B2B2B2B2B2}
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2} = {B2B2B2B2-B2B2-B2B2-B2B2-B2B2B2B2B2B2}
+	EndGlobalSection
+EndGlobal

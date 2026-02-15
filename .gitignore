@@ -1,0 +1,37 @@
+## [Visual Studio]
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+## [Build Artifacts]
+bin/
+obj/
+[Pp]ublish/
+Deploy/
+ManagerPublish/
+publish_output/
+
+## [Custom DesktopServer Artifacts]
+# Final installer and compressed files
+*.exe
+*.zip
+*.7z
+*.7Z
+*.msi
+*.cab
+*.pdb
+
+# Ignore specific large resources that are built or downloaded
+*/Resources/*.exe
+*/Resources/*.zip
+*/Resources/*.7zip
+*/Resources/vcredist_x64.exe
+
+# Specific build artifacts and temporary files
+*.cache
+*.log
+
+## [Common OS Files]
+Thumbs.db
+.DS_Store

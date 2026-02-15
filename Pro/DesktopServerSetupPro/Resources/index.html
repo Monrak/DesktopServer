@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monrak Desktop Server - Professional Edition</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        :root {
+            --primary: #10b981;
+            /* Monrak Crimson */
+            --primary-glow: rgba(16, 185, 129, 0.3);
+            --secondary: #0ea5e9;
+            /* Cyber Blue */
+            --secondary-glow: rgba(14, 165, 233, 0.3);
+            --bg-deep: #0a0a0c;
+            --bg-surface: #111827;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1f2937;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'JetBrains Mono', Consolas, monospace;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 2px 2px, rgba(153, 0, 61, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Glowing Header */
+        header {
+            padding: 60px 0 60px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(180deg, rgba(153, 0, 61, 0.05) 0%, transparent 100%);
+        }
+
+        .banner-container {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+        }
+
+        .banner-container img {
+            width: 100%;
+            display: block;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px var(--primary-glow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px);
+            text-shadow: 0 0 35px var(--primary-glow);
+        }
+
+        .logo img {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo:hover img {
+            transform: rotate(8deg) scale(1.1);
+            filter: drop-shadow(0 0 15px var(--primary-glow));
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .edition-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            letter-spacing: 1px;
+        }
+
+        /* Tech Cards */
+        .features {
+            padding: 60px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--primary-glow);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.05);
+            color: var(--primary);
+            padding: 6px 14px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Usage Section */
+        .usage-section {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 60px;
+            margin: 40px 0 80px;
+            backdrop-filter: blur(10px);
+        }
+
+        .usage-section h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--bg-deep);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 0 auto 25px;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .step h4 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        /* Buttons */
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 16px 45px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 15px var(--primary-glow);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        /* Icons */
+        .icon {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary-glow);
+            text-decoration: underline;
+        }
+
+        footer strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 10px;">
+                <div class="logo"><img src="app_logo.png" alt="Monrak Desktop Server Banner" width="70"> Monrak
+                    Desktop<span> Server Pro</span></div>
+            </div>
+            <p class="hero-subtitle">Next-Gen Local Development Environment by MonrakNet</p>
+            <a href="http://localhost/phpmyadmin" class="btn">Open phpMyAdmin Control</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="features">
+            <!-- PHP -->
+            <div class="card">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,17L21.41,17L23.13,11L21.27,11L20.45,13.9H16.89V13H19.59M16.89,14.6H20.45L19.59,17M6.89,17L8.71,17L10.43,11L8.57,11L7.75,13.9H4.19V13H6.89M4.19,14.6H7.75L6.89,17M1,21V11H2.43V21H1Z" />
+                    </svg>
+                    Hybrid PHP Engine
+                </h3>
+                <p>Run legacy and modern PHP applications side-by-side with high precision tuning.</p>
+                <div>
+                    <span class="tech-badge">v8.2 (LATEST)</span>
+                    <span class="tech-badge">v7.4 (OPTIMIZED)</span>
+                    <span class="tech-badge">v5.6 (LEGACY)</span>
+                </div>
+            </div>
+
+            <!-- Database -->
+            <div class="card">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3 12,3M4,9V12C4,14.21 7.58,16 12,16C16.42,16 20,14.21 20,12V9C20,11.21 16.42,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C16.42,21 20,19.21 20,17V14C20,16.21 16.42,18 12,18C7.58,18 4,16.21 4,14Z" />
+                    </svg>
+                    MySQL Core
+                </h3>
+                <p>Integrated MySQL 8.0 server with optimized buffer pools for low latency.</p>
+                <div>
+                    <span class="tech-badge">MySQL 8.0</span>
+                    <span class="tech-badge">phpMyAdmin</span>
+                    <span class="tech-badge">Remote Access</span>
+                </div>
+            </div>
+
+            <!-- Web Server -->
+            <div class="card">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18Z" />
+                    </svg>
+                    Apache Turbo
+                </h3>
+                <p>Apache 2.4 server pre-configured with mod_rewrite and security headers.</p>
+                <div>
+                    <span class="tech-badge">Apache 2.4</span>
+                    <span class="tech-badge">HSTS Enabled</span>
+                    <span class="tech-badge">Deflate Active</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="usage-section">
+            <h2>Command Center Operations</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-icon">01</div>
+                    <h4>Initialize</h4>
+                    <p>Run <strong>DesktopServerManagerPro</strong>. Look for the console in your system tray.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">02</div>
+                    <h4>Configure Engine</h4>
+                    <p>Select your PHP version targets via the Manager's dropdown selector.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">03</div>
+                    <h4>Deploy Code</h4>
+                    <p>Map your workspace to the <code>www</code> root and start executing scripts.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 <strong>Monrak Desktop Server</strong> Protocol. Compiled by <a href="https://www.monrak.net"
+                    target="_blank">Monrak.Net</a> Technology.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

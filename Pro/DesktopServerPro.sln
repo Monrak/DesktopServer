@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerManagerPro", "DesktopServerManagerPro\DesktopServerManagerPro.csproj", "{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopServerSetupPro", "DesktopServerSetupPro\DesktopServerSetupPro.csproj", "{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F1F1F1-F1F1-F1F1-F1F1-F1F1F1F1F1F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F2F2F2-F2F2-F2F2-F2F2-F2F2F2F2F2F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {477580A2-8972-488F-A242-238346DB57E4}
+	EndGlobalSection
+EndGlobal

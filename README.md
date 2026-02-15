@@ -1,0 +1,101 @@
+# DesktopServer (Next-Gen Local Environment)
+
+![DesktopServer Logo](DesktopServerLite/DesktopServerManager/Resources/app_icon.ico)
+
+**DesktopServer** is a powerful, professional-grade local development stack for Windows. Designed to be the successor to traditional local servers, it provides a seamless integrated environment for Apache, MySQL, and PHP development.
+
+Developed by **Monrak Net Technology**, DesktopServer focuses on performance, portability, and ease of use for both modern and legacy web development.
+
+---
+
+## 🚀 Key Features
+
+- **Integrated Stack**: Apache 2.4, MySQL 8.0, and high-performance PHP engine.
+- **Hybrid PHP Engine**: Robust support for legacy and modern PHP 7.4 environments.
+- **Modern Management UI**: Built with .NET 9.0 Windows Forms for a lightweight and responsive management experience.
+- **System Tray Integration**: Run in the background with quick access to logs and service controls.
+- **Smart Port Management**: Automatic port detection and checking to avoid conflicts.
+- **One-Click Services**: Start, stop, and restart Apache and MySQL with a single click.
+- **Log Viewer**: Integrated real-time log monitoring for debugging.
+- **Auto-Startup**: Seamlessly register the server to start with Windows.
+
+## 🛠️ Tech Stack
+
+- **Core UI**: .NET 9.0 (C# / WinForms)
+- **Web Server**: Apache 2.4
+- **Database**: MySQL 8.0
+- **Scripting**: PHP 7.4 (Universal Engine)
+- **Installer**: .NET-based Custom Setup Engine
+
+## 📦 Versions
+
+| Feature | Lite Version | Pro Version |
+| :--- | :---: | :---: |
+| Apache / MySQL / PHP | ✅ | ✅ |
+| Standard Management UI | ✅ | ✅ |
+| Advanced Monitoring | ❌ | ✅ |
+| Pro Networking Tools | ❌ | ✅ |
+| Priority Performance | ❌ | ✅ |
+
+---
+
+## 🏗️ Getting Started
+
+### Prerequisites
+- Windows 10/11 (x64)
+- .NET 9.0 Runtime
+
+### Development / Building from Source
+To build the project from source, you need **Visual Studio 2022** and the **.NET 9.0 SDK**.
+
+1. Clone the repository.
+2. Open `DesktopServer.sln` in the root (for everything) or individual solutions in `Lite/` and `Pro/`.
+3. Build the solution in `Release` mode.
+4. Alternatively, use the provided PowerShell scripts:
+   ```powershell
+   # Build everything (Recommended)
+   .\build_all.ps1
+
+   # Build Lite version
+   cd Lite
+   .\build.ps1
+   ```
+
+### Build Pipeline & Publishing
+
+DesktopServer uses a two-stage build process to create a self-contained installer:
+
+1.  **Manager Application**: The `DesktopServerManager` (the main UI) is published as a single-file executable.
+2.  **Setup Project**: The published manager `.exe` is then copied into the `Setup/Resources` folder of the respective version.
+3.  **Installer Bundle**: The setup project is built, bundling the manager and all necessary server assets into a single installer.
+
+### Output Locations
+
+Depending on how you build, the final artifacts are organized as follows:
+
+- **Using PowerShell Scripts (Recommended)**:
+  - **Master Build** (`.\build_all.ps1`):
+    - Final Artifacts Folder: `.\Deploy\`
+    - Files Included:
+      - `DesktopServerSetupLite.exe`, `.zip`, `.7z`
+      - `DesktopServerSetupPro.exe`, `.zip`, `.7z`
+  - **Individual Build** (e.g., `.\Lite\build.ps1`):
+    - Artifacts: `.\Lite\Publish\`
+
+---
+
+### 📦 Publishing for Users
+
+To create clean, ready-to-distribute installers and archives:
+1. Open PowerShell in the root directory.
+2. Run `.\build_all.ps1`.
+3. All distribution-ready files will be available in the **`.\Deploy`** folder. These include both `.exe` installers and compressed `.zip` / `.7z` versions.
+
+## 📜 License
+
+Copyright © 2026 **Monrak Net Protocol**. All rights reserved.
+Developed by [Monrak Net Technology](https://github.com/monraknet).
+
+---
+> [!NOTE]
+> This project is designed for local development excellence. For production deployments, ensure appropriate security configurations are applied to Apache and MySQL.
