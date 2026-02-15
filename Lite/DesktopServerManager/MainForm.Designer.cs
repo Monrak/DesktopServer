@@ -43,18 +43,19 @@ partial class MainForm
         toolStripMenuItem1 = new ToolStripSeparator();
         menuExit = new ToolStripMenuItem();
         chkStartWithWindows = new CheckBox();
-        btnEditPMAConfig = new Button();
-        panel1 = new Panel();
         pictureBox1 = new PictureBox();
+        chkEnableSSL = new CheckBox();
+        btnTrustCert = new Button();
+        pictureBox2 = new PictureBox();
         trayMenu.SuspendLayout();
-        panel1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
         SuspendLayout();
         // 
         // labelApache
         // 
         labelApache.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        labelApache.Location = new Point(47, 158);
+        labelApache.Location = new Point(47, 203);
         labelApache.Margin = new Padding(6, 0, 6, 0);
         labelApache.Name = "labelApache";
         labelApache.Size = new Size(267, 53);
@@ -65,7 +66,7 @@ partial class MainForm
         // lblApacheStatus
         // 
         lblApacheStatus.ForeColor = Color.Gray;
-        lblApacheStatus.Location = new Point(326, 158);
+        lblApacheStatus.Location = new Point(326, 203);
         lblApacheStatus.Margin = new Padding(6, 0, 6, 0);
         lblApacheStatus.Name = "lblApacheStatus";
         lblApacheStatus.Size = new Size(175, 53);
@@ -75,7 +76,7 @@ partial class MainForm
         // 
         // btnStartApache
         // 
-        btnStartApache.Location = new Point(512, 153);
+        btnStartApache.Location = new Point(512, 198);
         btnStartApache.Margin = new Padding(6);
         btnStartApache.Name = "btnStartApache";
         btnStartApache.Size = new Size(121, 60);
@@ -84,7 +85,7 @@ partial class MainForm
         // 
         // btnStopApache
         // 
-        btnStopApache.Location = new Point(644, 153);
+        btnStopApache.Location = new Point(644, 198);
         btnStopApache.Margin = new Padding(6);
         btnStopApache.Name = "btnStopApache";
         btnStopApache.Size = new Size(128, 60);
@@ -93,7 +94,7 @@ partial class MainForm
         // 
         // btnEditApacheConfig
         // 
-        btnEditApacheConfig.Location = new Point(783, 153);
+        btnEditApacheConfig.Location = new Point(783, 198);
         btnEditApacheConfig.Margin = new Padding(6);
         btnEditApacheConfig.Name = "btnEditApacheConfig";
         btnEditApacheConfig.Size = new Size(214, 60);
@@ -102,17 +103,17 @@ partial class MainForm
         // 
         // btnOpenApacheLog
         // 
-        btnOpenApacheLog.Location = new Point(1013, 153);
+        btnOpenApacheLog.Location = new Point(1009, 198);
         btnOpenApacheLog.Margin = new Padding(6);
         btnOpenApacheLog.Name = "btnOpenApacheLog";
-        btnOpenApacheLog.Size = new Size(156, 60);
+        btnOpenApacheLog.Size = new Size(160, 60);
         btnOpenApacheLog.TabIndex = 15;
         btnOpenApacheLog.Text = "Apache Logs";
         // 
         // labelMySQL
         // 
         labelMySQL.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        labelMySQL.Location = new Point(47, 231);
+        labelMySQL.Location = new Point(47, 268);
         labelMySQL.Margin = new Padding(6, 0, 6, 0);
         labelMySQL.Name = "labelMySQL";
         labelMySQL.Size = new Size(267, 53);
@@ -123,7 +124,7 @@ partial class MainForm
         // lblMySQLStatus
         // 
         lblMySQLStatus.ForeColor = Color.Gray;
-        lblMySQLStatus.Location = new Point(326, 231);
+        lblMySQLStatus.Location = new Point(326, 268);
         lblMySQLStatus.Margin = new Padding(6, 0, 6, 0);
         lblMySQLStatus.Name = "lblMySQLStatus";
         lblMySQLStatus.Size = new Size(175, 53);
@@ -133,7 +134,7 @@ partial class MainForm
         // 
         // btnStartMySQL
         // 
-        btnStartMySQL.Location = new Point(512, 227);
+        btnStartMySQL.Location = new Point(512, 264);
         btnStartMySQL.Margin = new Padding(6);
         btnStartMySQL.Name = "btnStartMySQL";
         btnStartMySQL.Size = new Size(121, 60);
@@ -142,7 +143,7 @@ partial class MainForm
         // 
         // btnStopMySQL
         // 
-        btnStopMySQL.Location = new Point(644, 227);
+        btnStopMySQL.Location = new Point(644, 264);
         btnStopMySQL.Margin = new Padding(6);
         btnStopMySQL.Name = "btnStopMySQL";
         btnStopMySQL.Size = new Size(128, 60);
@@ -151,7 +152,7 @@ partial class MainForm
         // 
         // btnEditMySQLConfig
         // 
-        btnEditMySQLConfig.Location = new Point(783, 227);
+        btnEditMySQLConfig.Location = new Point(783, 264);
         btnEditMySQLConfig.Margin = new Padding(6);
         btnEditMySQLConfig.Name = "btnEditMySQLConfig";
         btnEditMySQLConfig.Size = new Size(214, 60);
@@ -160,10 +161,10 @@ partial class MainForm
         // 
         // btnOpenMySQLLog
         // 
-        btnOpenMySQLLog.Location = new Point(1013, 227);
+        btnOpenMySQLLog.Location = new Point(1009, 264);
         btnOpenMySQLLog.Margin = new Padding(6);
         btnOpenMySQLLog.Name = "btnOpenMySQLLog";
-        btnOpenMySQLLog.Size = new Size(156, 60);
+        btnOpenMySQLLog.Size = new Size(160, 60);
         btnOpenMySQLLog.TabIndex = 16;
         btnOpenMySQLLog.Text = "MySQL Logs";
         // 
@@ -171,7 +172,7 @@ partial class MainForm
         // 
         labelLogHeader.AutoSize = true;
         labelLogHeader.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        labelLogHeader.Location = new Point(47, 305);
+        labelLogHeader.Location = new Point(47, 339);
         labelLogHeader.Margin = new Padding(6, 0, 6, 0);
         labelLogHeader.Name = "labelLogHeader";
         labelLogHeader.Size = new Size(157, 32);
@@ -182,13 +183,13 @@ partial class MainForm
         // 
         txtLog.BackColor = Color.GhostWhite;
         txtLog.Font = new Font("Consolas", 8F);
-        txtLog.Location = new Point(47, 352);
+        txtLog.Location = new Point(47, 389);
         txtLog.Margin = new Padding(6);
         txtLog.Multiline = true;
         txtLog.Name = "txtLog";
         txtLog.ReadOnly = true;
         txtLog.ScrollBars = ScrollBars.Vertical;
-        txtLog.Size = new Size(1120, 306);
+        txtLog.Size = new Size(1120, 269);
         txtLog.TabIndex = 10;
         // 
         // btnOpenWeb
@@ -262,32 +263,13 @@ partial class MainForm
         chkStartWithWindows.AutoSize = true;
         chkStartWithWindows.Checked = true;
         chkStartWithWindows.CheckState = CheckState.Checked;
-        chkStartWithWindows.Location = new Point(931, 304);
+        chkStartWithWindows.Location = new Point(931, 338);
         chkStartWithWindows.Margin = new Padding(6);
         chkStartWithWindows.Name = "chkStartWithWindows";
         chkStartWithWindows.Size = new Size(250, 36);
         chkStartWithWindows.TabIndex = 18;
         chkStartWithWindows.Text = "Start with Windows";
         chkStartWithWindows.UseVisualStyleBackColor = true;
-        // 
-        // btnEditPMAConfig
-        // 
-        btnEditPMAConfig.Location = new Point(569, 677);
-        btnEditPMAConfig.Margin = new Padding(6);
-        btnEditPMAConfig.Name = "btnEditPMAConfig";
-        btnEditPMAConfig.Size = new Size(351, 75);
-        btnEditPMAConfig.TabIndex = 19;
-        btnEditPMAConfig.Text = "phpMyAdmin Config";
-        // 
-        // panel1
-        // 
-        panel1.BackColor = Color.Black;
-        panel1.Controls.Add(pictureBox1);
-        panel1.Dock = DockStyle.Top;
-        panel1.Location = new Point(0, 0);
-        panel1.Name = "panel1";
-        panel1.Size = new Size(1205, 124);
-        panel1.TabIndex = 20;
         // 
         // pictureBox1
         // 
@@ -299,12 +281,44 @@ partial class MainForm
         pictureBox1.TabIndex = 21;
         pictureBox1.TabStop = false;
         // 
+        // chkEnableSSL
+        // 
+        chkEnableSSL.AutoSize = true;
+        chkEnableSSL.Location = new Point(472, 338);
+        chkEnableSSL.Name = "chkEnableSSL";
+        chkEnableSSL.Size = new Size(161, 36);
+        chkEnableSSL.TabIndex = 21;
+        chkEnableSSL.Text = "Enable SSL";
+        chkEnableSSL.UseVisualStyleBackColor = true;
+        // 
+        // btnTrustCert
+        // 
+        btnTrustCert.Location = new Point(644, 331);
+        btnTrustCert.Name = "btnTrustCert";
+        btnTrustCert.Size = new Size(252, 48);
+        btnTrustCert.TabIndex = 22;
+        btnTrustCert.Text = "Trust Certificate";
+        btnTrustCert.UseVisualStyleBackColor = true;
+        btnTrustCert.Visible = false;
+        // 
+        // pictureBox2
+        // 
+        pictureBox2.BackColor = Color.Black;
+        pictureBox2.Dock = DockStyle.Top;
+        pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+        pictureBox2.Location = new Point(0, 0);
+        pictureBox2.Name = "pictureBox2";
+        pictureBox2.Size = new Size(1205, 155);
+        pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+        pictureBox2.TabIndex = 29;
+        pictureBox2.TabStop = false;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(13F, 32F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1205, 782);
-        Controls.Add(panel1);
+        Controls.Add(pictureBox2);
         Controls.Add(labelApache);
         Controls.Add(lblApacheStatus);
         Controls.Add(btnStartApache);
@@ -322,8 +336,9 @@ partial class MainForm
         Controls.Add(btnOpenWeb);
         Controls.Add(btnOpenPMA);
         Controls.Add(btnEditPHPConfig);
-        Controls.Add(btnEditPMAConfig);
         Controls.Add(chkStartWithWindows);
+        Controls.Add(chkEnableSSL);
+        Controls.Add(btnTrustCert);
         FormBorderStyle = FormBorderStyle.FixedSingle;
         Icon = (Icon)resources.GetObject("$this.Icon");
         Margin = new Padding(6);
@@ -332,8 +347,8 @@ partial class MainForm
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Monrak Desktop Server - ACTIVE";
         trayMenu.ResumeLayout(false);
-        panel1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+        ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -366,4 +381,7 @@ partial class MainForm
     private ToolStripMenuItem aboutUsToolStripMenuItem;
     private Panel panel1;
     private PictureBox pictureBox1;
+    private CheckBox chkEnableSSL;
+    private Button btnTrustCert;
+    private PictureBox pictureBox2;
 }

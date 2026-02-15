@@ -4,6 +4,8 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Linq;
+using DesktopServerManager.Services;
 
 namespace DesktopServerManager;
 
@@ -14,6 +16,7 @@ public partial class MainForm : Form
     private bool reallyExit = false;
     private string logFilePath;
     private bool lastApacheRunning = false;
+    private SSLManager sslManager;
 
     public MainForm()
     {
@@ -80,6 +83,10 @@ public partial class MainForm : Form
         chkStartWithWindows.Checked = IsRegisteredForStartup();
         chkStartWithWindows.CheckedChanged += (s, e) => SetStartup(chkStartWithWindows.Checked);
 
+        // SSL Initialization
+        sslManager = new SSLManager(Path.Combine(rootPath, "apache24"));
+        InitializeSSLUI();
+
         // Start services automatically on load
         Task.Run(async () =>
         {
@@ -126,8 +133,14 @@ public partial class MainForm : Form
         btnStopApache.Click += (s, e) => ActionService("apache", "stop");
         btnStartMySQL.Click += (s, e) => ActionService("mysql", "start");
         btnStopMySQL.Click += (s, e) => ActionService("mysql", "stop");
-        btnOpenWeb.Click += (s, e) => Process.Start(new ProcessStartInfo("http://localhost") { UseShellExecute = true });
-        btnOpenPMA.Click += (s, e) => Process.Start(new ProcessStartInfo("http://localhost/phpmyadmin") { UseShellExecute = true });
+        btnOpenWeb.Click += (s, e) => {
+            string protocol = chkEnableSSL.Checked ? "https" : "http";
+            Process.Start(new ProcessStartInfo($"{protocol}://localhost") { UseShellExecute = true });
+        };
+        btnOpenPMA.Click += (s, e) => {
+            string protocol = chkEnableSSL.Checked ? "https" : "http";
+            Process.Start(new ProcessStartInfo($"{protocol}://localhost/phpmyadmin") { UseShellExecute = true });
+        };
 
         // Config & Logs
         btnEditApacheConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"apache24\conf\httpd.conf"));
@@ -423,6 +436,71 @@ public partial class MainForm : Form
     private void btnEditPHPConfig_Click(object sender, EventArgs e)
     {
 
+    }
+
+    private async void InitializeSSLUI()
+    {
+        bool isEnabled = await sslManager.IsSSLEnabled();
+        chkEnableSSL.Checked = isEnabled;
+        btnTrustCert.Visible = isEnabled;
+
+        chkEnableSSL.CheckedChanged += async (s, e) =>
+        {
+            chkEnableSSL.Enabled = false;
+            if (chkEnableSSL.Checked)
+            {
+                Log("Enabling SSL/HTTPS...");
+                bool success = await sslManager.SetupSSL();
+                if (success)
+                {
+                    Log("SSL configured successfully. Please restart Apache to apply changes.");
+                    btnTrustCert.Visible = true;
+                    // Auto-restart Apache if running
+                    if (IsProcessRunning("httpd"))
+                    {
+                        Log("Restarting Apache automatically...");
+                        ActionService("apache", "stop");
+                        await Task.Delay(1000);
+                        ActionService("apache", "start");
+                    }
+                }
+                else
+                {
+                    Log("FAILED to configure SSL. Check logs.");
+                    chkEnableSSL.Checked = false;
+                }
+            }
+            else
+            {
+                Log("Disabling SSL/HTTPS...");
+                await sslManager.DisableSSL();
+                Log("SSL disabled. Please restart Apache.");
+                btnTrustCert.Visible = false;
+                if (IsProcessRunning("httpd"))
+                {
+                    Log("Restarting Apache automatically...");
+                    ActionService("apache", "stop");
+                    await Task.Delay(1000);
+                    ActionService("apache", "start");
+                }
+            }
+            chkEnableSSL.Enabled = true;
+        };
+
+        btnTrustCert.Click += async (s, e) =>
+        {
+            Log("Attempting to trust Local SSL Certificate (Requires Admin)...");
+            bool success = await sslManager.TrustCertificate();
+            if (success)
+            {
+                Log("Certificate added to Trusted Root Authorities successfully!");
+                MessageBox.Show("Certificate Trusted Successfully!\n\nYou may need to restart your browser to see the effect.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                Log("Failed to trust certificate or user cancelled Admin prompt.");
+            }
+        };
     }
 
     private void aboutUsToolStripMenuItem_Click(object sender, EventArgs e)

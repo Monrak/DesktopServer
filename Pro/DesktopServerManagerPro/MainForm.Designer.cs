@@ -47,18 +47,20 @@ partial class MainForm
         cboPhpVersion = new ComboBox();
         btnSwitchPhp = new Button();
         btnTerminal = new Button();
-        labelPhpVersion = new Label();
-        panel1 = new Panel();
         pictureBox1 = new PictureBox();
+        chkEnableSSL = new CheckBox();
+        btnTrustCert = new Button();
+        pictureBox2 = new PictureBox();
+        label1 = new Label();
         trayMenu.SuspendLayout();
-        panel1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
         SuspendLayout();
         // 
         // labelApache
         // 
         labelApache.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        labelApache.Location = new Point(42, 241);
+        labelApache.Location = new Point(40, 298);
         labelApache.Margin = new Padding(6, 0, 6, 0);
         labelApache.Name = "labelApache";
         labelApache.Size = new Size(267, 53);
@@ -69,7 +71,7 @@ partial class MainForm
         // lblApacheStatus
         // 
         lblApacheStatus.ForeColor = Color.Gray;
-        lblApacheStatus.Location = new Point(273, 241);
+        lblApacheStatus.Location = new Point(271, 298);
         lblApacheStatus.Margin = new Padding(6, 0, 6, 0);
         lblApacheStatus.Name = "lblApacheStatus";
         lblApacheStatus.Size = new Size(200, 53);
@@ -79,7 +81,7 @@ partial class MainForm
         // 
         // btnStartApache
         // 
-        btnStartApache.Location = new Point(485, 240);
+        btnStartApache.Location = new Point(483, 297);
         btnStartApache.Margin = new Padding(6);
         btnStartApache.Name = "btnStartApache";
         btnStartApache.Size = new Size(143, 55);
@@ -88,7 +90,7 @@ partial class MainForm
         // 
         // btnStopApache
         // 
-        btnStopApache.Location = new Point(639, 240);
+        btnStopApache.Location = new Point(637, 297);
         btnStopApache.Margin = new Padding(6);
         btnStopApache.Name = "btnStopApache";
         btnStopApache.Size = new Size(128, 55);
@@ -97,7 +99,7 @@ partial class MainForm
         // 
         // btnEditApacheConfig
         // 
-        btnEditApacheConfig.Location = new Point(778, 240);
+        btnEditApacheConfig.Location = new Point(776, 297);
         btnEditApacheConfig.Margin = new Padding(6);
         btnEditApacheConfig.Name = "btnEditApacheConfig";
         btnEditApacheConfig.Size = new Size(214, 55);
@@ -106,7 +108,7 @@ partial class MainForm
         // 
         // btnOpenApacheLog
         // 
-        btnOpenApacheLog.Location = new Point(1008, 240);
+        btnOpenApacheLog.Location = new Point(1006, 297);
         btnOpenApacheLog.Margin = new Padding(6);
         btnOpenApacheLog.Name = "btnOpenApacheLog";
         btnOpenApacheLog.Size = new Size(156, 55);
@@ -116,7 +118,7 @@ partial class MainForm
         // labelMySQL
         // 
         labelMySQL.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        labelMySQL.Location = new Point(42, 318);
+        labelMySQL.Location = new Point(40, 361);
         labelMySQL.Margin = new Padding(6, 0, 6, 0);
         labelMySQL.Name = "labelMySQL";
         labelMySQL.Size = new Size(267, 53);
@@ -127,7 +129,7 @@ partial class MainForm
         // lblMySQLStatus
         // 
         lblMySQLStatus.ForeColor = Color.Gray;
-        lblMySQLStatus.Location = new Point(273, 318);
+        lblMySQLStatus.Location = new Point(271, 361);
         lblMySQLStatus.Margin = new Padding(6, 0, 6, 0);
         lblMySQLStatus.Name = "lblMySQLStatus";
         lblMySQLStatus.Size = new Size(200, 53);
@@ -137,7 +139,7 @@ partial class MainForm
         // 
         // btnStartMySQL
         // 
-        btnStartMySQL.Location = new Point(485, 317);
+        btnStartMySQL.Location = new Point(483, 360);
         btnStartMySQL.Margin = new Padding(6);
         btnStartMySQL.Name = "btnStartMySQL";
         btnStartMySQL.Size = new Size(143, 55);
@@ -146,7 +148,7 @@ partial class MainForm
         // 
         // btnStopMySQL
         // 
-        btnStopMySQL.Location = new Point(639, 317);
+        btnStopMySQL.Location = new Point(637, 360);
         btnStopMySQL.Margin = new Padding(6);
         btnStopMySQL.Name = "btnStopMySQL";
         btnStopMySQL.Size = new Size(128, 55);
@@ -155,7 +157,7 @@ partial class MainForm
         // 
         // btnEditMySQLConfig
         // 
-        btnEditMySQLConfig.Location = new Point(778, 317);
+        btnEditMySQLConfig.Location = new Point(776, 360);
         btnEditMySQLConfig.Margin = new Padding(6);
         btnEditMySQLConfig.Name = "btnEditMySQLConfig";
         btnEditMySQLConfig.Size = new Size(214, 55);
@@ -164,7 +166,7 @@ partial class MainForm
         // 
         // btnOpenMySQLLog
         // 
-        btnOpenMySQLLog.Location = new Point(1008, 317);
+        btnOpenMySQLLog.Location = new Point(1006, 360);
         btnOpenMySQLLog.Margin = new Padding(6);
         btnOpenMySQLLog.Name = "btnOpenMySQLLog";
         btnOpenMySQLLog.Size = new Size(156, 55);
@@ -175,7 +177,7 @@ partial class MainForm
         // 
         labelLogHeader.AutoSize = true;
         labelLogHeader.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        labelLogHeader.Location = new Point(47, 397);
+        labelLogHeader.Location = new Point(45, 443);
         labelLogHeader.Margin = new Padding(6, 0, 6, 0);
         labelLogHeader.Name = "labelLogHeader";
         labelLogHeader.Size = new Size(157, 32);
@@ -186,7 +188,7 @@ partial class MainForm
         // 
         txtLog.BackColor = Color.GhostWhite;
         txtLog.Font = new Font("Consolas", 8F);
-        txtLog.Location = new Point(44, 435);
+        txtLog.Location = new Point(42, 481);
         txtLog.Margin = new Padding(6);
         txtLog.Multiline = true;
         txtLog.Name = "txtLog";
@@ -197,7 +199,7 @@ partial class MainForm
         // 
         // btnOpenWeb
         // 
-        btnOpenWeb.Location = new Point(41, 684);
+        btnOpenWeb.Location = new Point(39, 730);
         btnOpenWeb.Margin = new Padding(6);
         btnOpenWeb.Name = "btnOpenWeb";
         btnOpenWeb.Size = new Size(223, 75);
@@ -206,7 +208,7 @@ partial class MainForm
         // 
         // btnOpenPMA
         // 
-        btnOpenPMA.Location = new Point(275, 684);
+        btnOpenPMA.Location = new Point(273, 730);
         btnOpenPMA.Margin = new Padding(6);
         btnOpenPMA.Name = "btnOpenPMA";
         btnOpenPMA.Size = new Size(280, 75);
@@ -215,7 +217,7 @@ partial class MainForm
         // 
         // btnEditPHPConfig
         // 
-        btnEditPHPConfig.Location = new Point(928, 684);
+        btnEditPHPConfig.Location = new Point(926, 730);
         btnEditPHPConfig.Margin = new Padding(6);
         btnEditPHPConfig.Name = "btnEditPHPConfig";
         btnEditPHPConfig.Size = new Size(236, 75);
@@ -266,7 +268,7 @@ partial class MainForm
         chkStartWithWindows.AutoSize = true;
         chkStartWithWindows.Checked = true;
         chkStartWithWindows.CheckState = CheckState.Checked;
-        chkStartWithWindows.Location = new Point(914, 173);
+        chkStartWithWindows.Location = new Point(912, 240);
         chkStartWithWindows.Margin = new Padding(6);
         chkStartWithWindows.Name = "chkStartWithWindows";
         chkStartWithWindows.Size = new Size(250, 36);
@@ -276,11 +278,10 @@ partial class MainForm
         // 
         // btnEditPMAConfig
         // 
-        btnEditPMAConfig.Location = new Point(566, 684);
-        btnEditPMAConfig.Margin = new Padding(6);
+        btnEditPMAConfig.Location = new Point(562, 730);
         btnEditPMAConfig.Name = "btnEditPMAConfig";
-        btnEditPMAConfig.Size = new Size(351, 75);
-        btnEditPMAConfig.TabIndex = 19;
+        btnEditPMAConfig.Size = new Size(355, 75);
+        btnEditPMAConfig.TabIndex = 18;
         btnEditPMAConfig.Text = "phpMyAdmin Config";
         // 
         // cboPhpVersion
@@ -288,7 +289,7 @@ partial class MainForm
         cboPhpVersion.DropDownStyle = ComboBoxStyle.DropDownList;
         cboPhpVersion.Font = new Font("Segoe UI", 10.875F, FontStyle.Regular, GraphicsUnit.Point, 0);
         cboPhpVersion.FormattingEnabled = true;
-        cboPhpVersion.Location = new Point(273, 167);
+        cboPhpVersion.Location = new Point(271, 234);
         cboPhpVersion.Margin = new Padding(6);
         cboPhpVersion.Name = "cboPhpVersion";
         cboPhpVersion.Size = new Size(200, 48);
@@ -296,7 +297,7 @@ partial class MainForm
         // 
         // btnSwitchPhp
         // 
-        btnSwitchPhp.Location = new Point(485, 165);
+        btnSwitchPhp.Location = new Point(483, 232);
         btnSwitchPhp.Margin = new Padding(6);
         btnSwitchPhp.Name = "btnSwitchPhp";
         btnSwitchPhp.Size = new Size(143, 53);
@@ -306,34 +307,13 @@ partial class MainForm
         // 
         // btnTerminal
         // 
-        btnTerminal.Location = new Point(639, 164);
+        btnTerminal.Location = new Point(637, 231);
         btnTerminal.Margin = new Padding(6);
         btnTerminal.Name = "btnTerminal";
         btnTerminal.Size = new Size(223, 55);
         btnTerminal.TabIndex = 21;
         btnTerminal.Text = "Open Terminal";
         btnTerminal.UseVisualStyleBackColor = true;
-        // 
-        // labelPhpVersion
-        // 
-        labelPhpVersion.AutoSize = true;
-        labelPhpVersion.Font = new Font("Segoe UI", 10.125F, FontStyle.Bold, GraphicsUnit.Point, 0);
-        labelPhpVersion.Location = new Point(42, 173);
-        labelPhpVersion.Margin = new Padding(6, 0, 6, 0);
-        labelPhpVersion.Name = "labelPhpVersion";
-        labelPhpVersion.Size = new Size(181, 37);
-        labelPhpVersion.TabIndex = 22;
-        labelPhpVersion.Text = "PHP Version:";
-        // 
-        // panel1
-        // 
-        panel1.BackColor = Color.Black;
-        panel1.Controls.Add(pictureBox1);
-        panel1.Dock = DockStyle.Top;
-        panel1.Location = new Point(0, 0);
-        panel1.Name = "panel1";
-        panel1.Size = new Size(1205, 134);
-        panel1.TabIndex = 24;
         // 
         // pictureBox1
         // 
@@ -345,12 +325,55 @@ partial class MainForm
         pictureBox1.TabIndex = 25;
         pictureBox1.TabStop = false;
         // 
+        // chkEnableSSL
+        // 
+        chkEnableSSL.AutoSize = true;
+        chkEnableSSL.Location = new Point(483, 431);
+        chkEnableSSL.Name = "chkEnableSSL";
+        chkEnableSSL.Size = new Size(161, 36);
+        chkEnableSSL.TabIndex = 26;
+        chkEnableSSL.Text = "Enable SSL";
+        chkEnableSSL.UseVisualStyleBackColor = true;
+        // 
+        // btnTrustCert
+        // 
+        btnTrustCert.Location = new Point(650, 424);
+        btnTrustCert.Name = "btnTrustCert";
+        btnTrustCert.Size = new Size(340, 48);
+        btnTrustCert.TabIndex = 27;
+        btnTrustCert.Text = "Trust Certificate";
+        btnTrustCert.UseVisualStyleBackColor = true;
+        btnTrustCert.Visible = false;
+        // 
+        // pictureBox2
+        // 
+        pictureBox2.BackColor = Color.Black;
+        pictureBox2.Dock = DockStyle.Top;
+        pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+        pictureBox2.Location = new Point(0, 0);
+        pictureBox2.Name = "pictureBox2";
+        pictureBox2.Size = new Size(1205, 186);
+        pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+        pictureBox2.TabIndex = 28;
+        pictureBox2.TabStop = false;
+        // 
+        // label1
+        // 
+        label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        label1.Location = new Point(39, 232);
+        label1.Margin = new Padding(6, 0, 6, 0);
+        label1.Name = "label1";
+        label1.Size = new Size(267, 53);
+        label1.TabIndex = 1;
+        label1.Text = "PHP Version:";
+        label1.TextAlign = ContentAlignment.MiddleLeft;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(13F, 32F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1205, 800);
-        Controls.Add(panel1);
+        ClientSize = new Size(1205, 870);
+        Controls.Add(pictureBox2);
         Controls.Add(labelApache);
         Controls.Add(lblApacheStatus);
         Controls.Add(btnStartApache);
@@ -373,7 +396,9 @@ partial class MainForm
         Controls.Add(cboPhpVersion);
         Controls.Add(btnSwitchPhp);
         Controls.Add(btnTerminal);
-        Controls.Add(labelPhpVersion);
+        Controls.Add(chkEnableSSL);
+        Controls.Add(btnTrustCert);
+        Controls.Add(label1);
         FormBorderStyle = FormBorderStyle.FixedSingle;
         Icon = (Icon)resources.GetObject("$this.Icon");
         Margin = new Padding(6);
@@ -381,9 +406,10 @@ partial class MainForm
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Monrak Desktop Server Pro - ACTIVE";
+        Load += MainForm_Load;
         trayMenu.ResumeLayout(false);
-        panel1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+        ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -420,4 +446,8 @@ partial class MainForm
     private Label labelPhpVersion;
     private Panel panel1;
     private PictureBox pictureBox1;
+    private CheckBox chkEnableSSL;
+    private Button btnTrustCert;
+    private PictureBox pictureBox2;
+    private Label label1;
 }

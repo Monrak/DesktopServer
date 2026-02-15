@@ -15,6 +15,8 @@ Developed by **Monrak Net Technology**, DesktopServer focuses on performance, po
 - **Smart Port Management**: Automatic port detection and checking to avoid conflicts.
 - **One-Click Services**: Start, stop, and restart Apache and MySQL with a single click.
 - **Log Viewer**: Integrated real-time log monitoring for debugging.
+- **Local SSL/HTTPS Support**: One-click self-signed certificate generation with automated Apache configuration.
+- **Modern Browser Compatibility**: Integrated Subject Alternative Name (SAN) support for `localhost` and `127.0.0.1` (Chrome/Edge friendly).
 - **Auto-Startup**: Seamlessly register the server to start with Windows.
 
 ## 🛠️ Tech Stack

@@ -31,6 +31,8 @@ publish_output/
 # Specific build artifacts and temporary files
 *.cache
 *.log
+temp_apache/
+temp_pma/
 
 ## [Common OS Files]
 Thumbs.db
