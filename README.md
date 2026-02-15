@@ -1,7 +1,5 @@
 # DesktopServer (Next-Gen Local Environment)
 
-![DesktopServer Logo](DesktopServerLite/DesktopServerManager/Resources/app_icon.ico)
-
 **DesktopServer** is a powerful, professional-grade local development stack for Windows. Designed to be the successor to traditional local servers, it provides a seamless integrated environment for Apache, MySQL, and PHP development.
 
 Developed by **Monrak Net Technology**, DesktopServer focuses on performance, portability, and ease of use for both modern and legacy web development.
