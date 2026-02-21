@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>DesktopServerSetupGo</AssemblyName>
+    <RootNamespace>DesktopServerSetupGo</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>MonrakNet Technology</Authors>
+    <Company>Monrak Net Co., Ltd.</Company>
+    <Product>Monrak Desktop Server Go!</Product>
+    <Description>Integrated Next-Gen AI-Ready PHP Environment Setup Engine.</Description>
+    <Copyright>Copyright © 2026 Monrak Net Protocol</Copyright>
+    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="app_icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Resources\**\*" />
+  </ItemGroup>
+
+</Project>

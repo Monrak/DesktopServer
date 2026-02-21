@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesktopServer Go - Next-Gen AI-Ready Stack</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        :root {
+            --primary: #cba6f7;
+            /* Mauve (Go Accent) */
+            --primary-glow: rgba(203, 166, 247, 0.4);
+            --secondary: #89b4fa;
+            /* Blue (FrankenPHP Accent) */
+            --secondary-glow: rgba(137, 180, 250, 0.4);
+            --bg-deep: #11111b;
+            --bg-surface: #181825;
+            --text-main: #cdd6f4;
+            --text-muted: #9399b2;
+            --border: #313244;
+            --success: #a6e3a1;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(203, 166, 247, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(137, 180, 250, 0.05) 0%, transparent 40%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        header {
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            text-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .logo span {
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 50px;
+            font-weight: 300;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .badge {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--bg-deep) 0%, var(--border) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .card:nth-child(2) .icon-box {
+            animation-delay: 0.5s;
+        }
+
+        .card:nth-child(3) .icon-box {
+            animation-delay: 1s;
+        }
+
+        .card:nth-child(4) .icon-box {
+            animation-delay: 1.5s;
+        }
+
+        .card:nth-child(5) .icon-box {
+            animation-delay: 2s;
+        }
+
+        .card:nth-child(6) .icon-box {
+            animation-delay: 2.5s;
+        }
+
+        /* Call to Action */
+        .cta-box {
+            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-deep) 100%);
+            border: 1px solid var(--primary);
+            border-radius: 24px;
+            padding: 60px;
+            text-align: center;
+            margin-bottom: 80px;
+            box-shadow: 0 0 40px var(--primary-glow);
+        }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--bg-deep);
+            padding: 18px 50px;
+            border-radius: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #fff;
+            box-shadow: 0 15px 40px var(--primary-glow);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+
+        strong {
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Monrak Desktop Server <span> Go!</span></div>
+            <p class="hero-subtitle">The Professional <strong>PHP 8.4</strong> Engine with High-Performance
+                <strong>RoadRunner</strong> & AI Hub Integration
+            </p>
+            <div class="badge-container">
+                <div class="badge"
+                    style="background: var(--success); color: #000; border: none; box-shadow: 0 0 20px rgba(166, 227, 161, 0.4);">
+                    ✓ Server Started</div>
+                <div class="badge">🚀 RoadRunner Native</div>
+                <div class="badge">🐘 PHP 8.4 Worker</div>
+                <div class="badge">🔥 MariaDB + PostgreSQL</div>
+            </div>
+            <a href="http://localhost:8080" class="btn">Launch Dashboard</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="features">
+            <div class="card">
+                <div class="icon-box">🏎️</div>
+                <h3>RoadRunner Engine</h3>
+                <p>The <strong>Fastest</strong> PHP Orchestrator. Keeps your apps in memory for lightning-fast 5ms
+                    responses.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🐘</div>
+                <h3>PHP 8.4 Runtime</h3>
+                <p>The <strong>Power</strong> of Modern PHP. Pre-optimized for JIT, Fibers, and massive AI-driven
+                    applications.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🐬</div>
+                <h3>MariaDB 11</h3>
+                <p>The <strong>Modern</strong> Web Database. Community-driven, high-speed sequel to MySQL for modern
+                    apps.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">🧠</div>
+                <h3>PostgreSQL + AI</h3>
+                <p>The <strong>AI Command Center</strong>. Integrated pgvector for semantic search and neural
+                    embeddings.</p>
+            </div>
+            <div class="card">
+                <div class="icon-box">💬</div>
+                <h3>AI Chatbot Ready</h3>
+                <p>The <strong>Intelligent Assistant</strong>. Built-in capabilities to deploy interactive chatbots and
+                    LLM-powered applications instantly.</p>
+            </div>
+        </section>
+
+        <section class="cta-box">
+            <h2>Ready to Build the Future?</h2>
+            <p style="margin-bottom: 30px; color: var(--text-muted);">Open <strong>DesktopServerManagerGo</strong> from
+                your system tray to manage your new high-performance stack.</p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <div style="width: 100%; margin-bottom: 20px; display: flex; justify-content: center; gap: 15px;">
+                    <a href="http://localhost:8080/phpmyadmin/index.php" target="_blank" class="btn"
+                        style="background: var(--primary); color: #000; min-width: 250px;">phpMyAdmin (MariaDB
+                        Default)</a>
+                    <a href="http://localhost:8080/adminer.php?pgsql=127.0.0.1&username=postgres" target="_blank"
+                        class="btn" style="background: #cba6f7; color: #000; min-width: 250px;">Adminer (PostgreSQL)</a>
+                </div>
+                <div style="width: 100%; display: flex; justify-content: center; gap: 15px;">
+                    <a href="https://www.pgadmin.org/download/" target="_blank" class="btn"
+                        style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.8rem;">Download
+                        pgAdmin 4</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 <strong>Monrak Desktop Server</strong> Protocol. Optimized for Go Engine.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

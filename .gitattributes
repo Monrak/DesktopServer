@@ -61,3 +61,9 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+# ###############################################################################
+# Git LFS tracking for large binary dependencies
+# ###############################################################################
+**/Resources/*.zip filter=lfs diff=lfs merge=lfs -text
+**/Resources/*.exe filter=lfs diff=lfs merge=lfs -text
+**/Resources/*.7z  filter=lfs diff=lfs merge=lfs -text

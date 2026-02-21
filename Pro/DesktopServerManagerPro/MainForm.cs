@@ -302,12 +302,6 @@ public partial class MainForm : Form
             string ver = cboPhpVersion.SelectedItem?.ToString() ?? "php74";
             OpenFileWithNotepad(Path.Combine(rootPath, $@"{ver}\php.ini"));
         };
-        btnEditPMAConfig.Click += (s, e) =>
-        {
-            string currentVer = cboPhpVersion.SelectedItem?.ToString() ?? "php74";
-            string pmaFolder = currentVer.Contains("php5") ? "phpmyadmin56" : "phpmyadmin";
-            OpenFileWithNotepad(Path.Combine(rootPath, $@"www\{pmaFolder}\config.inc.php"));
-        };
         btnOpenMySQLLog.Click += (s, e) => OpenMySQLLog();
         btnTerminal.Click += (s, e) => LaunchTerminal();
     }

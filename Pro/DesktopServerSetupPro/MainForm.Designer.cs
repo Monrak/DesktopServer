@@ -35,84 +35,82 @@ partial class MainForm
         // 
         // lblPathHeader
         // 
-        lblPathHeader.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        lblPathHeader.Location = new Point(29, 164);
-        lblPathHeader.Margin = new Padding(6, 0, 6, 0);
+        lblPathHeader.AutoSize = true;
+        lblPathHeader.Font = new Font("Segoe UI", 9F);
+        lblPathHeader.Location = new Point(20, 110);
         lblPathHeader.Name = "lblPathHeader";
-        lblPathHeader.Size = new Size(1003, 49);
+        lblPathHeader.Size = new Size(137, 15);
         lblPathHeader.TabIndex = 1;
         lblPathHeader.Text = "Choose Installation Path:";
         // 
         // txtInstallPath
         // 
-        txtInstallPath.Location = new Point(29, 225);
-        txtInstallPath.Margin = new Padding(6);
+        txtInstallPath.BackColor = Color.FromArgb(240, 240, 240);
+        txtInstallPath.BorderStyle = BorderStyle.FixedSingle;
+        txtInstallPath.Location = new Point(20, 130);
         txtInstallPath.Name = "txtInstallPath";
-        txtInstallPath.Size = new Size(814, 39);
+        txtInstallPath.Size = new Size(400, 23);
         txtInstallPath.TabIndex = 6;
-        txtInstallPath.Text = "C:\\MonrakDesktopServerPro";
+        txtInstallPath.Text = "C:\\DesktopServerPro";
         // 
         // btnBrowse
         // 
-        btnBrowse.Location = new Point(861, 225);
-        btnBrowse.Margin = new Padding(6);
+        btnBrowse.Location = new Point(430, 128);
         btnBrowse.Name = "btnBrowse";
-        btnBrowse.Size = new Size(167, 49);
+        btnBrowse.Size = new Size(100, 27);
         btnBrowse.TabIndex = 7;
         btnBrowse.Text = "Browse...";
         btnBrowse.UseVisualStyleBackColor = true;
         // 
         // lblDescription
         // 
-        lblDescription.Location = new Point(29, 286);
-        lblDescription.Margin = new Padding(6, 0, 6, 0);
+        lblDescription.Font = new Font("Segoe UI", 8F);
+        lblDescription.ForeColor = Color.DimGray;
+        lblDescription.Location = new Point(20, 155);
         lblDescription.Name = "lblDescription";
-        lblDescription.Size = new Size(1003, 45);
+        lblDescription.Size = new Size(510, 20);
         lblDescription.TabIndex = 5;
-        lblDescription.Text = "This will install Apache, PHP, MySQL, and a 'www' folder for your projects.";
+        lblDescription.Text = "Installs Apache, PHP, MySQL, and a project folder.";
         // 
         // lblStatus
         // 
-        lblStatus.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+        lblStatus.Font = new Font("Segoe UI", 8F, FontStyle.Italic);
         lblStatus.ForeColor = Color.DarkBlue;
-        lblStatus.Location = new Point(29, 329);
-        lblStatus.Margin = new Padding(6, 0, 6, 0);
+        lblStatus.Location = new Point(20, 415);
         lblStatus.Name = "lblStatus";
-        lblStatus.Size = new Size(1003, 49);
+        lblStatus.Size = new Size(350, 20);
         lblStatus.TabIndex = 4;
-        lblStatus.Text = "Ready to install (Offline Mode)";
+        lblStatus.Text = "Ready to install";
         // 
         // progressBar
         // 
-        progressBar.Location = new Point(29, 384);
-        progressBar.Margin = new Padding(6);
+        progressBar.Location = new Point(20, 400);
         progressBar.Name = "progressBar";
-        progressBar.Size = new Size(1012, 53);
+        progressBar.Size = new Size(350, 10);
         progressBar.TabIndex = 3;
         // 
         // txtLog
         // 
         txtLog.BackColor = SystemColors.Window;
         txtLog.Font = new Font("Consolas", 8F);
-        txtLog.Location = new Point(29, 450);
-        txtLog.Margin = new Padding(6);
+        txtLog.Location = new Point(20, 185);
         txtLog.Multiline = true;
         txtLog.Name = "txtLog";
         txtLog.ReadOnly = true;
         txtLog.ScrollBars = ScrollBars.Vertical;
-        txtLog.Size = new Size(1009, 315);
+        txtLog.Size = new Size(510, 200);
         txtLog.TabIndex = 2;
         // 
         // btnStart
         // 
         btnStart.BackColor = Color.Black;
+        btnStart.FlatAppearance.BorderSize = 0;
         btnStart.FlatStyle = FlatStyle.Flat;
-        btnStart.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+        btnStart.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
         btnStart.ForeColor = Color.White;
-        btnStart.Location = new Point(638, 789);
-        btnStart.Margin = new Padding(6);
+        btnStart.Location = new Point(380, 400);
         btnStart.Name = "btnStart";
-        btnStart.Size = new Size(394, 107);
+        btnStart.Size = new Size(150, 40);
         btnStart.TabIndex = 0;
         btnStart.Text = "START SETUP";
         btnStart.UseVisualStyleBackColor = false;
@@ -122,10 +120,10 @@ partial class MainForm
         checkBox1.AutoSize = true;
         checkBox1.Checked = true;
         checkBox1.CheckState = CheckState.Checked;
-        checkBox1.Location = new Point(29, 809);
-        checkBox1.Margin = new Padding(6);
+        checkBox1.Font = new Font("Segoe UI", 8F);
+        checkBox1.Location = new Point(20, 435);
         checkBox1.Name = "checkBox1";
-        checkBox1.Size = new Size(405, 36);
+        checkBox1.Size = new Size(192, 17);
         checkBox1.TabIndex = 1;
         checkBox1.Text = "Open Monrak Desktop Server Pro";
         checkBox1.UseVisualStyleBackColor = true;
@@ -137,24 +135,25 @@ partial class MainForm
         panel1.Dock = DockStyle.Top;
         panel1.Location = new Point(0, 0);
         panel1.Name = "panel1";
-        panel1.Size = new Size(1085, 140);
+        panel1.Size = new Size(550, 100);
         panel1.TabIndex = 8;
         // 
         // pictureBox1
         // 
         pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-        pictureBox1.Location = new Point(12, 3);
+        pictureBox1.Location = new Point(10, 5);
         pictureBox1.Name = "pictureBox1";
-        pictureBox1.Size = new Size(740, 137);
+        pictureBox1.Size = new Size(500, 90);
         pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         pictureBox1.TabIndex = 0;
         pictureBox1.TabStop = false;
         // 
         // MainForm
         // 
-        AutoScaleDimensions = new SizeF(13F, 32F);
+        AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1085, 937);
+        BackColor = Color.White;
+        ClientSize = new Size(550, 465);
         Controls.Add(panel1);
         Controls.Add(checkBox1);
         Controls.Add(lblPathHeader);
@@ -165,9 +164,8 @@ partial class MainForm
         Controls.Add(progressBar);
         Controls.Add(txtLog);
         Controls.Add(btnStart);
-        FormBorderStyle = FormBorderStyle.FixedDialog;
+        FormBorderStyle = FormBorderStyle.FixedSingle;
         Icon = (Icon)resources.GetObject("$this.Icon");
-        Margin = new Padding(6);
         MaximizeBox = false;
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;

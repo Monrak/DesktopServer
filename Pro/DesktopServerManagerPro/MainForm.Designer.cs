@@ -443,8 +443,6 @@ partial class MainForm
     private ComboBox cboPhpVersion;
     private Button btnSwitchPhp;
     private Button btnTerminal;
-    private Label labelPhpVersion;
-    private Panel panel1;
     private PictureBox pictureBox1;
     private CheckBox chkEnableSSL;
     private Button btnTrustCert;

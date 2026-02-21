@@ -1,0 +1,26 @@
+version: "3"
+
+rpc:
+  listen: tcp://127.0.0.1:6001
+
+server:
+  command: "php84\\php.exe -d display_errors=stderr worker.php"
+  relay: pipes
+
+http:
+  address: :8080
+  middleware: [static, gzip]
+  static:
+    dir: "www"
+    forbid: [".php", ".yaml"]
+  pool:
+    num_workers: 4
+    max_jobs: 100
+    allocate_timeout: 60s
+    destroy_timeout: 60s
+
+logs:
+  mode: production
+  level: error
+  encoding: console
+  output: stderr

@@ -201,18 +201,25 @@ namespace DesktopServerSetupPro
                 UpdateStatus("Completed successfully!", 100);
                 Log("SUCCESS: DesktopServer Pro is ready.");
 
-                // Create Uninstaller
+                UpdateStatus("Registering Uninstaller...", 98);
                 string uninstallerPath = Path.Combine(rootPath, "Uninstaller.exe");
                 try
                 {
-                   File.Copy(Application.ExecutablePath, uninstallerPath, true);
-                   RegisterUninstaller(rootPath, uninstallerPath);
-                   Log("Uninstaller registered successfully.");
+                    File.Copy(Application.ExecutablePath, uninstallerPath, true);
+                    RegisterUninstaller(rootPath, uninstallerPath);
+                    Log("Uninstaller registered successfully.");
                 }
                 catch (Exception ex)
                 {
                     Log($"Warning: Failed to create uninstaller: {ex.Message}");
                 }
+
+                // Create Start Menu Shortcut
+                UpdateStatus("Creating Start Menu Shortcut...", 99);
+                CreateShortcut(Path.Combine(rootPath, "DesktopServerManagerPro.exe"), "Monrak Manager Pro!", "Launch Monrak Desktop Server Pro!");
+
+                UpdateStatus("Completed successfully!", 100);
+                Log("SUCCESS: Monrak Desktop Server Pro! is ready.");
 
                 // --- VC++ Redist Optional Install ---
                 var vcResult = MessageBox.Show("Do you want to install Microsoft Visual C++ Redistributable (x64)?\n\n[IMPORTANT] This is MANDATORY for PHP 5.6 to work. Without this, PHP 5.6 will not start.",
@@ -320,18 +327,77 @@ namespace DesktopServerSetupPro
         }
 
         private void ExtractResourceToFile(string resourceName, string destPath)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        // Try logical name first
+        string fullResourceName = $"DesktopServerSetupPro.Resources.{resourceName}";
+        
+        using (Stream? stream = assembly.GetManifestResourceStream(fullResourceName))
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            string fullResourceName = $"DesktopServerSetupPro.Resources.{resourceName}";
-            using (Stream? stream = assembly.GetManifestResourceStream(fullResourceName))
+            if (stream == null) 
             {
-                if (stream == null) throw new Exception($"Resource '{resourceName}' not found in bundle.");
-                using (FileStream fs = new FileStream(destPath, FileMode.Create))
+                // Fallback: Try finding it by suffix
+                var allResources = assembly.GetManifestResourceNames();
+                var match = allResources.FirstOrDefault(r => r.EndsWith(resourceName));
+                
+                if (match != null)
                 {
-                    stream.CopyTo(fs);
+                    Log($"Resource '{resourceName}' found as '{match}'.");
+                    using (Stream? s2 = assembly.GetManifestResourceStream(match))
+                    {
+                        using (FileStream fs = new FileStream(destPath, FileMode.Create))
+                        {
+                            s2?.CopyTo(fs);
+                        }
+                    }
+                    return;
                 }
+
+                Log($"Error: Resource '{resourceName}' not found. Available: {string.Join(", ", allResources)}");
+                throw new Exception($"Resource '{resourceName}' not found in bundle.");
+            }
+
+            using (FileStream fs = new FileStream(destPath, FileMode.Create))
+            {
+                stream.CopyTo(fs);
             }
         }
+    }
+
+    private void CreateShortcut(string targetPath, string shortcutName, string description)
+    {
+        try
+        {
+            Log($"Creating Start Menu shortcut: {shortcutName}...");
+            string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+            string appStartMenuPath = Path.Combine(startMenuPath, "Monrak Net");
+            
+            if (!Directory.Exists(appStartMenuPath))
+            {
+                Directory.CreateDirectory(appStartMenuPath);
+            }
+
+            string shortcutLocation = Path.Combine(appStartMenuPath, shortcutName + ".lnk");
+            
+            Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
+            if (shellType != null)
+            {
+                dynamic shell = Activator.CreateInstance(shellType)!;
+                dynamic shortcut = shell.CreateShortcut(shortcutLocation);
+                
+                shortcut.TargetPath = targetPath;
+                shortcut.WorkingDirectory = Path.GetDirectoryName(targetPath);
+                shortcut.Description = description;
+                shortcut.IconLocation = targetPath;
+                shortcut.Save();
+                Log($"Shortcut created successfully at {shortcutLocation}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Log($"Failed to create shortcut: {ex.Message}");
+        }
+    }
 
         private void FinalizeFolders(string root, string www)
         {
@@ -728,24 +794,40 @@ namespace DesktopServerSetupPro
                     return;
                 }
 
-                // 1. Kill Processes
-                string[] procs = { "DesktopServerManagerPro", "httpd", "mysqld", "php-cgi" };
-                foreach (var pName in procs)
+            // 1. Kill Processes
+            string[] procs = { "DesktopServerManagerPro", "httpd", "mysqld", "php-cgi" };
+            foreach (var pName in procs)
+            {
+                foreach (var p in Process.GetProcessesByName(pName))
                 {
-                    foreach (var p in Process.GetProcessesByName(pName))
-                    {
-                        try { p.Kill(); p.WaitForExit(1000); } catch {}
-                    }
+                    try { p.Kill(); p.WaitForExit(1000); } catch {}
                 }
+            }
 
-                // 2. Remove Registry
-                try
+            // 2. Remove Registry
+            try
+            {
+                Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\DesktopServerPro", false);
+            }
+            catch {}
+
+            // 3. Remove Shortcut
+            try
+            {
+                string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
+                string lnkPath = Path.Combine(startMenuPath, "Monrak Net", "Monrak Manager Pro!.lnk");
+                if (File.Exists(lnkPath)) File.Delete(lnkPath);
+                
+                // Cleanup empty directory if no other versions exist
+                string appStartMenuPath = Path.Combine(startMenuPath, "Monrak Net");
+                if (Directory.Exists(appStartMenuPath) && !Directory.EnumerateFileSystemEntries(appStartMenuPath).Any())
                 {
-                    Microsoft.Win32.Registry.CurrentUser.DeleteSubKeyTree(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\DesktopServerPro", false);
+                    Directory.Delete(appStartMenuPath, false);
                 }
-                catch {}
+            }
+            catch { }
 
-                // 3. Remove Files (Attempt)
+                // 4. Self-Cleanup Script
                 if (!string.IsNullOrEmpty(root) && Directory.Exists(root))
                 {
                     // Create a temporary cleanup script

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>DesktopServerManagerGo</AssemblyName>
+    <RootNamespace>DesktopServerManagerGo</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>MonrakNet Technology</Authors>
+    <Company>Monrak Net Co., Ltd.</Company>
+    <Product>Desktop Server Go</Product>
+    <Description>Next-Gen AI-Ready PHP Environment powered by Go &amp; RoadRunner.|Ultra-fast Worker Mode, Integrated Vector DBs, and Zero-Config HTTPS.|The future of professional local development.</Description>
+    <Copyright>Copyright © 2026 Monrak Net Protocol</Copyright>
+    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

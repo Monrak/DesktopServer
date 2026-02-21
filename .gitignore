@@ -22,11 +22,15 @@ publish_output/
 *.cab
 *.pdb
 
-# Ignore specific large resources that are built or downloaded
-*/Resources/*.exe
-*/Resources/*.zip
-*/Resources/*.7zip
-*/Resources/vcredist_x64.exe
+# Ignore specific large resources by default, but allow tracking via Git LFS
+# in the Resources directories.
+*.exe
+*.zip
+*.7z
+*.7Z
+!**/Resources/*.exe
+!**/Resources/*.zip
+!**/Resources/*.7z
 
 # Specific build artifacts and temporary files
 *.cache

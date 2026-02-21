@@ -147,7 +147,6 @@ public partial class MainForm : Form
         btnOpenApacheLog.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"apache24\logs\error.log"));
         btnEditMySQLConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"mysql80\my.ini"));
         btnEditPHPConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"php74\php.ini"));
-        btnEditPMAConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"www\phpmyadmin\config.inc.php"));
         btnOpenMySQLLog.Click += (s, e) => OpenMySQLLog();
     }
 

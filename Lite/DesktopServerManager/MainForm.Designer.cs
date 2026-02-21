@@ -371,7 +371,6 @@ partial class MainForm
     private TextBox txtLog;
     private Button btnOpenWeb;
     private Button btnOpenPMA;
-    private Button btnEditPMAConfig;
     private CheckBox chkStartWithWindows;
     private NotifyIcon notifyIcon;
     private ContextMenuStrip trayMenu;
@@ -379,7 +378,6 @@ partial class MainForm
     private ToolStripMenuItem menuExit;
     private ToolStripSeparator toolStripMenuItem1;
     private ToolStripMenuItem aboutUsToolStripMenuItem;
-    private Panel panel1;
     private PictureBox pictureBox1;
     private CheckBox chkEnableSSL;
     private Button btnTrustCert;

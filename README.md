@@ -2,40 +2,52 @@
 
 **DesktopServer** is a powerful, professional-grade local development stack for Windows. Designed to be the successor to traditional local servers, it provides a seamless integrated environment for Apache, MySQL, and PHP development.
 
+## 🏎️ Monrak Desktop Server Go! (Beta)
+**The Ultimate PHP & AI Development Engine**
+
 Developed by **Monrak Net Technology**, DesktopServer focuses on performance, portability, and ease of use for both modern and legacy web development.
 
 ---
 
 ## 🚀 Key Features
 
-- **Integrated Stack**: Apache 2.4, MySQL 8.0, and high-performance PHP engine.
-- **Hybrid PHP Engine**: Robust support for legacy and modern PHP 7.4 environments.
-- **Modern Management UI**: Built with .NET 9.0 Windows Forms for a lightweight and responsive management experience.
+- **Integrated Stack**: Apache 2.4, MariaDB 11/MySQL 8.0, and high-performance PHP engine.
+- **Hybrid PHP Engine**: Robust support for legacy (PHP 5.6/7.4) and modern (PHP 8.2/8.4) environments.
+- **Modern Management UI**: Built with .NET 9.0 Windows Forms, featuring a custom flat-dark theme.
+- **Performance Dashboard**: Real-time CPU and RAM usage charts for monitoring server health (Go Edition).
 - **System Tray Integration**: Run in the background with quick access to logs and service controls.
-- **Smart Port Management**: Automatic port detection and checking to avoid conflicts.
-- **One-Click Services**: Start, stop, and restart Apache and MySQL with a single click.
-- **Log Viewer**: Integrated real-time log monitoring for debugging.
-- **Local SSL/HTTPS Support**: One-click self-signed certificate generation with automated Apache configuration.
-- **Modern Browser Compatibility**: Integrated Subject Alternative Name (SAN) support for `localhost` and `127.0.0.1` (Chrome/Edge friendly).
-- **Auto-Startup**: Seamlessly register the server to start with Windows.
+- **Smart Port Management**: Automatic port detection and conflict resolution.
+- **RoadRunner Integration**: Go-powered high-performance PHP server with SSL management (Go Edition).
+- **PostgreSQL Support**: Integrated PostgreSQL 17 support with automated data initialization (Go Edition).
+- **Adminer Auto-Login**: Secure, one-click login for PostgreSQL via automated shim.
+- **Local SSL/HTTPS Support**: One-click certificate generation with automated trust/CA installation (SAN support).
+- **Smart Isolation**: Automatically detects and cleans conflicting system PHP paths to ensure environment purity.
+- **Clean Uninstallation**: Reliably removes all files, shortcuts, and background services (Apache, MariaDB, Postgres).
 
 ## 🛠️ Tech Stack
 
 - **Core UI**: .NET 9.0 (C# / WinForms)
-- **Web Server**: Apache 2.4
-- **Database**: MySQL 8.0
-- **Scripting**: PHP 7.4 (Universal Engine)
-- **Installer**: .NET-based Custom Setup Engine
+- **Web Server**: Apache 2.4 (Standard) & RoadRunner (High-Performance)
+- **Database**: MariaDB / MySQL 8.0 & PostgreSQL 17 (AI-Ready)
+- **Scripting**: PHP 5.6 / 7.4 / 8.2 / 8.4+ (Universal Runtime)
+- **Installer**: .NET-based Custom Setup Engine with Smart Flattening
 
 ## 📦 Versions
 
-| Feature | Lite Version | Pro Version |
-| :--- | :---: | :---: |
-| Apache / MySQL / PHP | ✅ | ✅ |
-| Standard Management UI | ✅ | ✅ |
-| Advanced Monitoring | ❌ | ✅ |
-| Pro Networking Tools | ❌ | ✅ |
-| Priority Performance | ❌ | ✅ |
+| Feature | Lite Version | Pro Version | Go Edition |
+| :--- | :---: | :---: | :---: |
+| Apache Web Server | ✅ | ✅ | ❌ |
+| RoadRunner Engine | ❌ | ❌ | ✅ |
+| MariaDB / MySQL | ✅ | ✅ | ✅ |
+| PostgreSQL Support | ❌ | ❌ | ✅ |
+| PHP Support | ✅ (7.4) | ✅ (Multi) | ✅ (8.4+) |
+| Standard Management UI | ✅ | ✅ | ✅ |
+| Performance Dashboard | ❌ | ❌ | ✅ |
+| SSL / HTTPS Management | ✅ | ✅ | ✅ |
+| **Default Install Path** | `C:\DesktopServerLite` | `C:\DesktopServerPro` | `C:\DesktopServerGo` |
+
+> [!NOTE]
+> All versions are designed to be installed independently and can coexist on the same system without conflicting.
 
 ---
 
@@ -53,8 +65,9 @@ Developers must provide the following files:
 
 | Target Folder | Required Files |
 | :--- | :--- |
-| **`Lite/DesktopServerSetup/Resources/`** | `apache24_tmp.zip`, `mysql80_tmp.zip`, `php74.zip`, `pma_tmp.zip`, `DesktopServerManager.exe`* |
-| **`Pro/DesktopServerSetupPro/Resources/`** | `apache24_tmp.zip`, `mysql80_tmp.zip`, `php56.zip`, `php74.zip`, `php82.zip`, `pma56_tmp.zip`, `pma_tmp.zip`, `vcredist_x64.exe`, `DesktopServerManagerPro.exe`* |
+| **`Lite/DesktopServerSetup/Resources/`** | `apache24_tmp.zip`, `mysql80_tmp.zip`, `php74.zip`, `pma_tmp.zip`, `DesktopServerManager.exe` |
+| **`Pro/DesktopServerSetupPro/Resources/`** | `apache24_tmp.zip`, `mysql80_tmp.zip`, `php56.zip`, `php74.zip`, `php82.zip`, `pma56_tmp.zip`, `pma_tmp.zip`, `vcredist_x64.exe`, `DesktopServerManagerPro.exe` |
+| **`Go/DesktopServerSetupGo/Resources/`** | `php84_tmp.zip`, `roadrunner_tmp.zip`, `mariadb_tmp.zip`, `postgres_tmp.zip`, `pma_tmp.zip`, `DesktopServerManagerGo.exe` |
 
 *\* Note: The `.exe` files for the Manager can be generated by building the Manager project or running the build scripts.*
 
@@ -65,12 +78,16 @@ Developers must provide the following files:
 To build the project from source, you need **Visual Studio 2022** and the **.NET 9.0 SDK**.
 
 1. Clone the repository.
-2. Open `DesktopServer.sln` in the root (for everything) or individual solutions in `Lite/` and `Pro/`.
+2. Open `DesktopServer.sln` in the root (for everything) or individual solutions in `Lite/`, `Pro/`, and `Go/`.
 3. Build the solution in `Release` mode.
 4. Alternatively, use the provided PowerShell scripts:
    ```powershell
    # Build everything (Recommended)
    .\build_all.ps1
+
+   # Build Go! version
+   cd Go
+   .\build.ps1
 
    # Build Lite version
    cd Lite
@@ -79,11 +96,11 @@ To build the project from source, you need **Visual Studio 2022** and the **.NET
 
 ### Build Pipeline & Publishing
 
-DesktopServer uses a two-stage build process to create a self-contained installer:
+DesktopServer uses a multi-stage build process to create a self-contained installer:
 
-1.  **Manager Application**: The `DesktopServerManager` (the main UI) is published as a single-file executable.
-2.  **Setup Project**: The published manager `.exe` is then copied into the `Setup/Resources` folder of the respective version.
-3.  **Installer Bundle**: The setup project is built, bundling the manager and all necessary server assets into a single installer.
+1.  **Manager Application**: The edition-specific Manager UI (e.g., `DesktopServerManagerGo`) is published as a single-file executable.
+2.  **Resource Integration**: The published manager `.exe` is copied into the `Resources` folder of the respective `Setup` project.
+3.  **Installer Bundle**: The `Setup` project is built, bundling the manager and all necessary server assets (ZIPs) into a single, redistributable installer.
 
 ### Output Locations
 
@@ -95,8 +112,9 @@ Depending on how you build, the final artifacts are organized as follows:
     - Files Included:
       - `DesktopServerSetupLite.exe`, `.zip`, `.7z`
       - `DesktopServerSetupPro.exe`, `.zip`, `.7z`
-  - **Individual Build** (e.g., `.\Lite\build.ps1`):
-    - Artifacts: `.\Lite\Publish\`
+      - `DesktopServerSetupGo.exe`, `.zip`, `.7z`
+  - **Individual Build** (e.g., `.\Lite\build.ps1`, `.\Pro\build.ps1`, `.\Go\build.ps1`):
+    - Artifacts: `.\Lite\Publish\`, `.\Pro\Publish\`, `.\Go\Publish\`
 
 ---
 
