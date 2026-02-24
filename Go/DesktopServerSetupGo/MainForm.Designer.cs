@@ -18,6 +18,7 @@ partial class MainForm
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
         lblMain = new Label();
         pnlHeader = new Panel();
+        label1 = new Label();
         btnMinimize = new Button();
         btnClose = new Button();
         btnInstall = new Button();
@@ -33,18 +34,19 @@ partial class MainForm
         // lblMain
         // 
         lblMain.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
-        lblMain.ForeColor = Color.FromArgb(203, 166, 247);
+        lblMain.ForeColor = Color.LimeGreen;
         lblMain.Location = new Point(0, 0);
         lblMain.Margin = new Padding(6, 0, 6, 0);
         lblMain.Name = "lblMain";
-        lblMain.Size = new Size(1015, 107);
+        lblMain.Size = new Size(509, 107);
         lblMain.TabIndex = 0;
-        lblMain.Text = "Monrak Desktop Server Go!";
-        lblMain.TextAlign = ContentAlignment.MiddleCenter;
+        lblMain.Text = "Monrak Desktop";
+        lblMain.TextAlign = ContentAlignment.MiddleRight;
         // 
         // pnlHeader
         // 
         pnlHeader.BackColor = Color.FromArgb(30, 30, 46);
+        pnlHeader.Controls.Add(label1);
         pnlHeader.Controls.Add(btnMinimize);
         pnlHeader.Controls.Add(btnClose);
         pnlHeader.Controls.Add(lblMain);
@@ -54,6 +56,18 @@ partial class MainForm
         pnlHeader.Size = new Size(1021, 107);
         pnlHeader.TabIndex = 10;
         // 
+        // label1
+        // 
+        label1.Font = new Font("Arial Rounded MT Bold", 16.125F, FontStyle.Italic, GraphicsUnit.Point, 0);
+        label1.ForeColor = Color.FromArgb(203, 166, 247);
+        label1.Location = new Point(500, 5);
+        label1.Margin = new Padding(6, 0, 6, 0);
+        label1.Name = "label1";
+        label1.Size = new Size(393, 107);
+        label1.TabIndex = 10;
+        label1.Text = "Server Go!";
+        label1.TextAlign = ContentAlignment.MiddleLeft;
+        // 
         // btnMinimize
         // 
         btnMinimize.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -62,7 +76,7 @@ partial class MainForm
         btnMinimize.FlatStyle = FlatStyle.Flat;
         btnMinimize.Font = new Font("Segoe UI", 12F);
         btnMinimize.ForeColor = Color.White;
-        btnMinimize.Location = new Point(1727, 21);
+        btnMinimize.Location = new Point(895, 21);
         btnMinimize.Margin = new Padding(6);
         btnMinimize.Name = "btnMinimize";
         btnMinimize.Size = new Size(56, 64);
@@ -78,7 +92,7 @@ partial class MainForm
         btnClose.FlatStyle = FlatStyle.Flat;
         btnClose.Font = new Font("Segoe UI", 12F);
         btnClose.ForeColor = Color.White;
-        btnClose.Location = new Point(1786, 21);
+        btnClose.Location = new Point(954, 21);
         btnClose.Margin = new Padding(6);
         btnClose.Name = "btnClose";
         btnClose.Size = new Size(56, 64);
@@ -212,4 +226,5 @@ partial class MainForm
     private Label lblPath;
     private Button btnMinimize;
     private Button btnClose;
+    private Label label1;
 }

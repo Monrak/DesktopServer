@@ -47,6 +47,7 @@ partial class MainForm
         chkEnableSSL = new CheckBox();
         btnTrustCert = new Button();
         pictureBox2 = new PictureBox();
+        btnDatabaseSecurity = new Button();
         trayMenu.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
         ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -313,6 +314,15 @@ partial class MainForm
         pictureBox2.TabIndex = 29;
         pictureBox2.TabStop = false;
         // 
+        // btnDatabaseSecurity
+        // 
+        btnDatabaseSecurity.Location = new Point(568, 677);
+        btnDatabaseSecurity.Name = "btnDatabaseSecurity";
+        btnDatabaseSecurity.Size = new Size(355, 75);
+        btnDatabaseSecurity.TabIndex = 23;
+        btnDatabaseSecurity.Text = "Database Security";
+        btnDatabaseSecurity.UseVisualStyleBackColor = true;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(13F, 32F);
@@ -339,6 +349,7 @@ partial class MainForm
         Controls.Add(chkStartWithWindows);
         Controls.Add(chkEnableSSL);
         Controls.Add(btnTrustCert);
+        Controls.Add(btnDatabaseSecurity);
         FormBorderStyle = FormBorderStyle.FixedSingle;
         Icon = (Icon)resources.GetObject("$this.Icon");
         Margin = new Padding(6);
@@ -382,4 +393,5 @@ partial class MainForm
     private CheckBox chkEnableSSL;
     private Button btnTrustCert;
     private PictureBox pictureBox2;
+    private Button btnDatabaseSecurity;
 }

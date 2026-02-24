@@ -42,8 +42,16 @@ public partial class MainForm : Form
         btnStartRoadRunner.Click += async (s, e) => await ToggleService("RoadRunner", lblRoadRunnerStatus, btnStartRoadRunner);
         btnStartMaria.Click += async (s, e) => await ToggleService("MariaDB", lblMariaStatus, btnStartMaria);
         btnStartPostgres.Click += async (s, e) => await ToggleService("PostgreSQL", lblPostgresStatus, btnStartPostgres);
+        btnSetPassword.Visible = false; // Hidden for passwordless experience
         btnOpenPMA.Click += (s, e) => Process.Start(new ProcessStartInfo("http://localhost:8080/phpmyadmin/index.php?route=/server/databases") { UseShellExecute = true });
-        btnOpenAdminer.Click += (s, e) => Process.Start(new ProcessStartInfo("http://localhost:8080/adminer.php?pgsql=127.0.0.1&username=postgres") { UseShellExecute = true });
+        btnOpenAdminer.Click += (s, e) => {
+            string pgAdminPath = Path.Combine(rootPath, "postgres", "pgAdmin 4", "runtime", "pgAdmin4.exe");
+            if (File.Exists(pgAdminPath)) {
+                Process.Start(new ProcessStartInfo(pgAdminPath) { UseShellExecute = true, WorkingDirectory = Path.GetDirectoryName(pgAdminPath) });
+            } else {
+                MessageBox.Show("pgAdmin 4 not found at:\n" + pgAdminPath, "Tool Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        };
 
         // Configuration and Logs
         btnViewPhpIni.Click += (s, e) => OpenInNotepad("php84\\php.ini");
@@ -307,16 +315,34 @@ public partial class MainForm : Form
     {
         string fullPath = Path.Combine(rootPath, relativePath);
         
-        // Handle postgresql log dynamic path if the direct file isn't found
-        if (relativePath == "postgres\\data\\log\\postgresql.log" && !File.Exists(fullPath))
+        // Dynamic discovery for MariaDB Logs
+        if (relativePath == "mariadb\\data\\DESKTOP.err")
+        {
+            string mariaDataDir = Path.Combine(rootPath, "mariadb", "data");
+            if (Directory.Exists(mariaDataDir))
+            {
+                var errFiles = Directory.GetFiles(mariaDataDir, "*.err");
+                if (errFiles.Length > 0)
+                {
+                    // Open the most recently modified .err file
+                    fullPath = errFiles.OrderByDescending(f => File.GetLastWriteTime(f)).First();
+                }
+            }
+        }
+        // Dynamic discovery for PostgreSQL Logs
+        else if (relativePath == "postgres\\data\\log\\postgresql.log")
         {
             string logDir = Path.Combine(rootPath, "postgres", "data", "log");
             if (Directory.Exists(logDir))
             {
-                var files = Directory.GetFiles(logDir, "postgresql-*.log").OrderByDescending(f => f).ToList();
+                var files = Directory.GetFiles(logDir, "postgresql-*.log").OrderByDescending(f => File.GetLastWriteTime(f)).ToList();
                 if (files.Count > 0)
                 {
                     fullPath = files.First();
+                }
+                else if (File.Exists(Path.Combine(logDir, "postgresql.log")))
+                {
+                    fullPath = Path.Combine(logDir, "postgresql.log");
                 }
             }
         }
@@ -581,5 +607,12 @@ public partial class MainForm : Form
         {
             MessageBox.Show($"Failed to configure startup: {ex.Message}", "Registry Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
+    }
+
+
+    private void Log(string msg)
+    {
+        if (txtLogs.InvokeRequired) { txtLogs.Invoke(new Action(() => Log(msg))); return; }
+        txtLogs.AppendText($"[{DateTime.Now:HH:mm:ss}] {msg}\r\n");
     }
 }

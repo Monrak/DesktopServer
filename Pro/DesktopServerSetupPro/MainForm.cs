@@ -214,12 +214,21 @@ namespace DesktopServerSetupPro
                     Log($"Warning: Failed to create uninstaller: {ex.Message}");
                 }
 
-                // Create Start Menu Shortcut
-                UpdateStatus("Creating Start Menu Shortcut...", 99);
-                CreateShortcut(Path.Combine(rootPath, "DesktopServerManagerPro.exe"), "Monrak Manager Pro!", "Launch Monrak Desktop Server Pro!");
+                // Create Shortcuts
+                UpdateStatus("Creating Shortcuts...", 99);
+                string managerExe = Path.Combine(rootPath, "DesktopServerManagerPro.exe");
+                
+                // 1. Start Menu
+                CreateShortcut(managerExe, "Monrak Manager Pro!", "Launch Monrak Desktop Server Pro!", Environment.GetFolderPath(Environment.SpecialFolder.Programs));
+                
+                // 2. Desktop
+                CreateShortcut(managerExe, "Monrak Manager Pro!", "Launch Monrak Desktop Server Pro!", Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 
                 UpdateStatus("Completed successfully!", 100);
                 Log("SUCCESS: Monrak Desktop Server Pro! is ready.");
+
+                // Apply initial security with empty password by default (User preference: Password = NO)
+                await ApplyDatabaseSecurity(rootPath, "");
 
                 // --- VC++ Redist Optional Install ---
                 var vcResult = MessageBox.Show("Do you want to install Microsoft Visual C++ Redistributable (x64)?\n\n[IMPORTANT] This is MANDATORY for PHP 5.6 to work. Without this, PHP 5.6 will not start.",
@@ -364,20 +373,19 @@ namespace DesktopServerSetupPro
         }
     }
 
-    private void CreateShortcut(string targetPath, string shortcutName, string description)
+    private void CreateShortcut(string targetPath, string shortcutName, string description, string parentFolder)
     {
         try
         {
-            Log($"Creating Start Menu shortcut: {shortcutName}...");
-            string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
-            string appStartMenuPath = Path.Combine(startMenuPath, "Monrak Net");
-            
-            if (!Directory.Exists(appStartMenuPath))
+            string appFolder = parentFolder;
+            if (parentFolder == Environment.GetFolderPath(Environment.SpecialFolder.Programs))
             {
-                Directory.CreateDirectory(appStartMenuPath);
+                appFolder = Path.Combine(parentFolder, "Monrak Net");
+                if (!Directory.Exists(appFolder)) Directory.CreateDirectory(appFolder);
             }
 
-            string shortcutLocation = Path.Combine(appStartMenuPath, shortcutName + ".lnk");
+            Log($"Creating shortcut: {shortcutName} in {appFolder}...");
+            string shortcutLocation = Path.Combine(appFolder, shortcutName + ".lnk");
             
             Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
             if (shellType != null)
@@ -767,11 +775,15 @@ namespace DesktopServerSetupPro
                 using (var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\DesktopServerPro"))
                 {
                     key.SetValue("DisplayName", "Monrak Desktop Server Pro");
-                    key.SetValue("DisplayVersion", "1.0.0");
+                    key.SetValue("DisplayVersion", "1.0.1");
                     key.SetValue("Publisher", "Monrak Net Co., Ltd.");
                     key.SetValue("UninstallString", $"\"{uninstallerPath}\" /uninstall");
-                    key.SetValue("InstallLocation", installLocation);
                     key.SetValue("DisplayIcon", uninstallerPath);
+                    key.SetValue("InstallLocation", installLocation);
+                    key.SetValue("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
+                    key.SetValue("EstimatedSize", 1200 * 1024); // Approx 1.2GB
+                    key.SetValue("URLInfoAbout", "https://monrak.net");
+                    key.SetValue("HelpLink", "https://monrak.net/support");
                     key.SetValue("NoModify", 1);
                     key.SetValue("NoRepair", 1);
                 }
@@ -779,6 +791,91 @@ namespace DesktopServerSetupPro
             catch (Exception ex)
             {
                 Log($"Failed to register uninstaller: {ex.Message}");
+            }
+        }
+
+        private async Task ApplyDatabaseSecurity(string root, string password)
+        {
+            await Task.Yield();
+            try
+            {
+                Log("Applying initial database security...");
+                UpdateStatus("Configuring Security...", 99);
+
+                // MariaDB/MySQL Password (Pro uses mysql80)
+                string mysqlBin = Path.Combine(root, "mysql80", "bin", "mysqld.exe");
+                string mysqlClient = Path.Combine(root, "mysql80", "bin", "mysql.exe");
+                if (File.Exists(mysqlBin))
+                {
+                    Log("Applying MySQL security...");
+                    var psi = new ProcessStartInfo(mysqlBin, $"--defaults-file=\"my.ini\" --skip-networking --bootstrap")
+                    {
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                        WorkingDirectory = Path.GetDirectoryName(mysqlBin),
+                        RedirectStandardInput = true
+                    };
+
+                    using (var proc = Process.Start(psi))
+                    {
+                        if (proc != null)
+                        {
+                            proc.StandardInput.WriteLine($"ALTER USER 'root'@'localhost' IDENTIFIED BY '{password}';");
+                            proc.StandardInput.WriteLine("FLUSH PRIVILEGES;");
+                            proc.StandardInput.Close();
+                            proc.WaitForExit(10000);
+                        }
+                    }
+                }
+
+                // Update phpMyAdmin config (Pro has two PMAs: Core and Legacy)
+                string[] pmaConfigs = {
+                    Path.Combine(root, "www", "phpmyadmin", "config.inc.php"),
+                    Path.Combine(root, "www", "phpmyadmin56", "config.inc.php")
+                };
+
+                foreach (var pmaConfig in pmaConfigs)
+                {
+                    if (File.Exists(pmaConfig))
+                    {
+                        Log($"Updating {Path.GetFileName(Path.GetDirectoryName(pmaConfig))} credentials...");
+                        string content = File.ReadAllText(pmaConfig);
+                        content = content.Replace("password'] = '';", $"password'] = '{password}';");
+                        content = content.Replace("AllowNoPassword'] = true;", "AllowNoPassword'] = true;"); // Always true
+                        File.WriteAllText(pmaConfig, content);
+                    }
+                }
+                
+                Log("Database security applied successfully.");
+            }
+            catch (Exception ex)
+            {
+                Log($"Warning: Could not apply database security automatically: {ex.Message}");
+            }
+        }
+
+        private void KillRunningProcesses()
+        {
+            string[] procs = { 
+                "DesktopServerManagerGo", "DesktopServerManager", "DesktopServerManagerPro",
+                "rr", "mariadbd", "mysqld", "postgres", "pg_ctl", "php-cgi", "pgAdmin4", 
+                "mysql", "mariadb", "psql", "Standard.exe", "httpd"
+            };
+            foreach (var pName in procs)
+            {
+                try
+                {
+                    var runningProcs = Process.GetProcessesByName(pName);
+                    if (runningProcs.Length > 0)
+                    {
+                        Log($"Terminating {runningProcs.Length} instance(s) of: {pName}...");
+                        foreach (var p in runningProcs)
+                        {
+                            try { p.Kill(); p.WaitForExit(3000); } catch { }
+                        }
+                    }
+                }
+                catch { }
             }
         }
 
@@ -795,14 +892,8 @@ namespace DesktopServerSetupPro
                 }
 
             // 1. Kill Processes
-            string[] procs = { "DesktopServerManagerPro", "httpd", "mysqld", "php-cgi" };
-            foreach (var pName in procs)
-            {
-                foreach (var p in Process.GetProcessesByName(pName))
-                {
-                    try { p.Kill(); p.WaitForExit(1000); } catch {}
-                }
-            }
+            KillRunningProcesses();
+            System.Threading.Thread.Sleep(2000);
 
             // 2. Remove Registry
             try
@@ -811,14 +902,20 @@ namespace DesktopServerSetupPro
             }
             catch {}
 
-            // 3. Remove Shortcut
+            // 3. Remove Shortcuts
             try
             {
+                // Start Menu
                 string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
                 string lnkPath = Path.Combine(startMenuPath, "Monrak Net", "Monrak Manager Pro!.lnk");
                 if (File.Exists(lnkPath)) File.Delete(lnkPath);
                 
-                // Cleanup empty directory if no other versions exist
+                // Desktop
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string desktopLnk = Path.Combine(desktopPath, "Monrak Manager Pro!.lnk");
+                if (File.Exists(desktopLnk)) File.Delete(desktopLnk);
+
+                // Cleanup empty directory in Start Menu
                 string appStartMenuPath = Path.Combine(startMenuPath, "Monrak Net");
                 if (Directory.Exists(appStartMenuPath) && !Directory.EnumerateFileSystemEntries(appStartMenuPath).Any())
                 {
@@ -836,8 +933,13 @@ namespace DesktopServerSetupPro
                     
                     File.WriteAllText(batchFile, $@"
 @echo off
-timeout /t 2 /nobreak >nul
+timeout /t 3 /nobreak >nul
+:retry
 rmdir /s /q ""{root}""
+if exist ""{root}"" (
+    timeout /t 2 /nobreak >nul
+    goto retry
+)
 del ""%~f0""
 ");
                     

@@ -1,135 +1,107 @@
-# DesktopServer (Next-Gen Local Environment)
+# Monrak DesktopServer
 
-**DesktopServer** is a powerful, professional-grade local development stack for Windows. Designed to be the successor to traditional local servers, it provides a seamless integrated environment for Apache, MySQL, and PHP development.
+[![Platform](https://img.shields.io/badge/platform-Windows-0078d7.svg)](https://www.microsoft.com/windows)
+[![PHP](https://img.shields.io/badge/PHP-8.4-777bb4.svg)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-Proprietary-red.svg)](#license)
+[![Status](https://img.shields.io/badge/status-Beta-orange.svg)](#)
 
-## 🏎️ Monrak Desktop Server Go! (Beta)
-**The Ultimate PHP & AI Development Engine**
+**Monrak DesktopServer** is a professional, native local development stack for Windows. Built as a powerful **WAMP/XAMPP alternative**, it provides a streamlined, high-performance environment for modern PHP, MySQL, and PostgreSQL development.
 
-Developed by **Monrak Net Technology**, DesktopServer focuses on performance, portability, and ease of use for both modern and legacy web development.
+[Features](#-key-features) • [Tech Stack](#-tech-stack) • [Versions](#-version-comparison) • [Getting Started](#-getting-started)
+
+---
+
+## 🏎️ Monrak DesktopServer Go!
+**High-Performance PHP & AI Development Engine**
+
+Developed by **Monrak Net Technology**, DesktopServer focuses on speed, stability, and professional-grade tools for both legacy maintenance and modern web application development.
+
+---
+
+## 🎯 Our Mission: Performance-First Development
+
+We believe that professional development environments should be fast, reliable, and accessible on any hardware.
+
+*   **Modern Standards**: Out-of-the-box support for **PHP 8.4**, **PostgreSQL 17**, and **RoadRunner**.
+*   **Native Execution**: Unlike Docker or Virtualization, DesktopServer runs natively on Windows for minimum overhead and maximum speed.
+*   **Hardware Optimized**: Designed to be lightweight and memory-efficient, giving older machines a "Pro" development experience.
 
 ---
 
 ## 🚀 Key Features
 
-- **Integrated Stack**: Apache 2.4, MariaDB 11/MySQL 8.0, and high-performance PHP engine.
-- **Hybrid PHP Engine**: Robust support for legacy (PHP 5.6/7.4) and modern (PHP 8.2/8.4) environments.
-- **Modern Management UI**: Built with .NET 9.0 Windows Forms, featuring a custom flat-dark theme.
-- **Performance Dashboard**: Real-time CPU and RAM usage charts for monitoring server health (Go Edition).
-- **System Tray Integration**: Run in the background with quick access to logs and service controls.
-- **Smart Port Management**: Automatic port detection and conflict resolution.
-- **RoadRunner Integration**: Go-powered high-performance PHP server with SSL management (Go Edition).
-- **PostgreSQL Support**: Integrated PostgreSQL 17 support with automated data initialization (Go Edition).
-- **Adminer Auto-Login**: Secure, one-click login for PostgreSQL via automated shim.
-- **Local SSL/HTTPS Support**: One-click certificate generation with automated trust/CA installation (SAN support).
-- **Smart Isolation**: Automatically detects and cleans conflicting system PHP paths to ensure environment purity.
-- **Clean Uninstallation**: Reliably removes all files, shortcuts, and background services (Apache, MariaDB, Postgres).
+*   **Unified Stack**: Pre-configured Apache 2.4, MariaDB 11, and modern PHP runtimes.
+*   **Go! Edition Engine**: Integrated **RoadRunner** high-performance PHP orchestrator for sub-5ms response times.
+*   **Database Excellence**: Professional support for MariaDB 11, MySQL 8.0, and **PostgreSQL 17 (AI-Ready)**.
+*   **One-Click SSL**: Built-in Automated Certificate Authority (CA) and SSL/HTTPS management with SAN support.
+*   **Isolated Environments**: Prevents system-wide path conflicts with smart process isolation.
+*   **Real-time Monitoring**: Integrated dashboard for CPU and RAM performance tracking (Go! Edition).
+*   **Premium Management**: Custom .NET 9 management UI with system tray integration and live log viewers.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Core UI**: .NET 9.0 (C# / WinForms)
-- **Web Server**: Apache 2.4 (Standard) & RoadRunner (High-Performance)
-- **Database**: MariaDB / MySQL 8.0 & PostgreSQL 17 (AI-Ready)
-- **Scripting**: PHP 5.6 / 7.4 / 8.2 / 8.4+ (Universal Runtime)
-- **Installer**: .NET-based Custom Setup Engine with Smart Flattening
+### core
+*   **Management Console**: .NET 9.0 (C# / WinForms)
+*   **Web Orchestration**: Apache 2.4 & RoadRunner (Next-Gen PHP)
 
-## 📦 Versions
+### Database & Storage
+*   **RDBMS**: MariaDB 11, MySQL 8.0, PostgreSQL 17 (with pgvector for AI)
+*   **Tools**: phpMyAdmin & pgAdmin 4 Desktop Manager
 
-| Feature | Lite Version | Pro Version | Go Edition |
+### Runtimes
+*   **PHP**: 5.6 / 7.4 / 8.2 / 8.4+ (Universal support)
+*   **Runtime Libraries**: Bundled VC++ 2012-2022 redistributables
+
+---
+
+## 📦 Version Comparison
+
+| Feature | Lite | Pro/Advance | Go! Edition |
 | :--- | :---: | :---: | :---: |
-| Apache Web Server | ✅ | ✅ | ❌ |
-| RoadRunner Engine | ❌ | ❌ | ✅ |
-| MariaDB / MySQL | ✅ | ✅ | ✅ |
-| PostgreSQL Support | ❌ | ❌ | ✅ |
-| PHP Support | ✅ (7.4) | ✅ (Multi) | ✅ (8.4+) |
-| Standard Management UI | ✅ | ✅ | ✅ |
-| Performance Dashboard | ❌ | ❌ | ✅ |
-| SSL / HTTPS Management | ✅ | ✅ | ✅ |
-| **Default Install Path** | `C:\DesktopServerLite` | `C:\DesktopServerPro` | `C:\DesktopServerGo` |
-
-> [!NOTE]
-> All versions are designed to be installed independently and can coexist on the same system without conflicting.
+| **Web Server** | Apache 2.4 | Apache 2.4 | **RoadRunner** |
+| **PHP Support** | Single (7.4) | Multi (5.6-8.2) | **Modern (8.4+)** |
+| **DB (SQL)** | MySQL 8.0 | MySQL 8.0 | **MariaDB 11** |
+| **DB (Postgre)** | ❌ | ❌ | **PostgreSQL 17** |
+| **AI Hub** | ❌ | ❌ | **Integrated** |
+| **Monitoring** | Basic | Basic | **Real-time Stats** |
+| **Environment** | Common Path | Isolated Paths | **High-Concurrency** |
 
 ---
 
 ## 🏗️ Getting Started
 
 ### Prerequisites
-- Windows 10/11 (x64)
-- .NET 9.0 Runtime
+*   Windows 10 / 11 (64-bit)
+*   .NET 9.0 Desktop Runtime
 
-### ⚠️ Build Requirements: Binary Dependencies
-
-Due to GitHub's **100MB file size limit** and for repository performance, the large binary stacks (Apache, MySQL, PHP, etc.) are **not included** in this repository. These files must be manually placed in the `Resources` folder of the respective versions to successfully build the installer.
-
-Developers must provide the following files:
-
-| Target Folder | Required Files |
-| :--- | :--- |
-| **`Lite/DesktopServerSetup/Resources/`** | `apache24_tmp.zip`, `mysql80_tmp.zip`, `php74.zip`, `pma_tmp.zip`, `DesktopServerManager.exe` |
-| **`Pro/DesktopServerSetupPro/Resources/`** | `apache24_tmp.zip`, `mysql80_tmp.zip`, `php56.zip`, `php74.zip`, `php82.zip`, `pma56_tmp.zip`, `pma_tmp.zip`, `vcredist_x64.exe`, `DesktopServerManagerPro.exe` |
-| **`Go/DesktopServerSetupGo/Resources/`** | `php84_tmp.zip`, `roadrunner_tmp.zip`, `mariadb_tmp.zip`, `postgres_tmp.zip`, `pma_tmp.zip`, `DesktopServerManagerGo.exe` |
-
-*\* Note: The `.exe` files for the Manager can be generated by building the Manager project or running the build scripts.*
+### Installation
+1.  Download the professional installer for your preferred edition.
+2.  Run the setup and follow the high-speed deployment wizard.
+3.  Launch **DesktopServer Manager** from the desktop or system tray.
 
 > [!IMPORTANT]
-> **Detailed Dependency Guide**: For instructions on where to download these binaries and how to structure the ZIP files properly, please refer to the **[BUILD_GUIDE.md](BUILD_GUIDE.md)**.
-
-### Development / Building from Source
-To build the project from source, you need **Visual Studio 2022** and the **.NET 9.0 SDK**.
-
-1. Clone the repository.
-2. Open `DesktopServer.sln` in the root (for everything) or individual solutions in `Lite/`, `Pro/`, and `Go/`.
-3. Build the solution in `Release` mode.
-4. Alternatively, use the provided PowerShell scripts:
-   ```powershell
-   # Build everything (Recommended)
-   .\build_all.ps1
-
-   # Build Go! version
-   cd Go
-   .\build.ps1
-
-   # Build Lite version
-   cd Lite
-   .\build.ps1
-   ```
-
-### Build Pipeline & Publishing
-
-DesktopServer uses a multi-stage build process to create a self-contained installer:
-
-1.  **Manager Application**: The edition-specific Manager UI (e.g., `DesktopServerManagerGo`) is published as a single-file executable.
-2.  **Resource Integration**: The published manager `.exe` is copied into the `Resources` folder of the respective `Setup` project.
-3.  **Installer Bundle**: The `Setup` project is built, bundling the manager and all necessary server assets (ZIPs) into a single, redistributable installer.
-
-### Output Locations
-
-Depending on how you build, the final artifacts are organized as follows:
-
-- **Using PowerShell Scripts (Recommended)**:
-  - **Master Build** (`.\build_all.ps1`):
-    - Final Artifacts Folder: `.\Deploy\`
-    - Files Included:
-      - `DesktopServerSetupLite.exe`, `.zip`, `.7z`
-      - `DesktopServerSetupPro.exe`, `.zip`, `.7z`
-      - `DesktopServerSetupGo.exe`, `.zip`, `.7z`
-  - **Individual Build** (e.g., `.\Lite\build.ps1`, `.\Pro\build.ps1`, `.\Go\build.ps1`):
-    - Artifacts: `.\Lite\Publish\`, `.\Pro\Publish\`, `.\Go\Publish\`
+> **Source Builds**: If you are building from source, please refer to the **[BUILD_GUIDE.md](BUILD_GUIDE.md)** for binary dependency instructions (Apache, PHP, etc.), as these are not bundled in the core repository due to size constraints.
 
 ---
 
-### 📦 Publishing for Users
+## 💖 Support the Project
 
-To create clean, ready-to-distribute installers and archives:
-1. Open PowerShell in the root directory.
-2. Run `.\build_all.ps1`.
-3. All distribution-ready files will be available in the **`.\Deploy`** folder. These include both `.exe` installers and compressed `.zip` / `.7z` versions.
+If **Monrak DesktopServer** helps you build better apps faster, consider supporting its development. Your contributions help keep the project alive and growing.
+
+<div align="center">
+  <img src="docs/images/promptpay.png" width="300" alt="Support via PromptPay">
+  <p><i>Support via PromptPay (Thailand)</i></p>
+</div>
+
+---
 
 ## 📜 License
 
 Copyright © 2026 **Monrak Net Protocol**. All rights reserved.
-Developed by [Monrak Net Technology](https://github.com/monraknet).
+Developed for professional excellence by [Monrak Net Technology](https://github.com/monraknet).
 
 ---
 > [!NOTE]
-> This project is designed for local development excellence. For production deployments, ensure appropriate security configurations are applied to Apache and MySQL.
+> Optimized for local development. For production-grade security, follow the included configuration hardening guides for Apache and MySQL.

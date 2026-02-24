@@ -282,7 +282,7 @@ partial class MainForm
         btnEditPMAConfig.Name = "btnEditPMAConfig";
         btnEditPMAConfig.Size = new Size(355, 75);
         btnEditPMAConfig.TabIndex = 18;
-        btnEditPMAConfig.Text = "phpMyAdmin Config";
+        btnEditPMAConfig.Text = "Database Security";
         // 
         // cboPhpVersion
         // 

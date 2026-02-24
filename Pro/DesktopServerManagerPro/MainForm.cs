@@ -304,6 +304,9 @@ public partial class MainForm : Form
         };
         btnOpenMySQLLog.Click += (s, e) => OpenMySQLLog();
         btnTerminal.Click += (s, e) => LaunchTerminal();
+        btnEditPMAConfig.Text = "Database Security";
+        // btnEditPMAConfig.Click += async (s, e) => await SetDatabasePassword();
+        btnEditPMAConfig.Visible = false;
     }
 
     private void LaunchTerminal()
@@ -730,6 +733,7 @@ public partial class MainForm : Form
             about.ShowDialog();
         }
     }
+
 
     private void MainForm_Load(object sender, EventArgs e)
     {

@@ -20,7 +20,7 @@ public partial class MainForm : Form
         
         if (args.Contains("/uninstall"))
         {
-            RunUninstall();
+            RunUninstall().GetAwaiter().GetResult();
             Environment.Exit(0);
         }
 
@@ -151,37 +151,16 @@ public partial class MainForm : Form
             
             Directory.CreateDirectory(Path.Combine(rootPath, "openssl"));
             
-            // Deploy nested Adminer logic
-            string adminerBase = Path.Combine(rootPath, "www", "adminer-base.php");
-            string adminerPath = Path.Combine(rootPath, "www", "adminer.php");
-            ExtractResourceToFile("adminer-5.4.2.php", adminerBase);
-            string adminerPHP = "<?php\n" +
-                "// Adminer PostgreSQL Auto-Login (Ultra-Stable)\n" +
-                "if ($_SERVER['REQUEST_METHOD'] === 'GET' && !isset($_GET['db'])) {\n" +
-                "    echo \"<!DOCTYPE html><html><head><title>Connecting...</title><style>body{background:#1a1a2e;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;}@keyframes s{to{transform:rotate(360deg)}}</style></head>\" .\n" +
-                "         \"<body onload='document.getElementById(\\\"f\\\").submit()'><div style='text-align:center'><p>Connecting to PostgreSQL...</p>\" .\n" +
-                 "         \"<form action='adminer.php' method='post' id='f'>\" .\n" +
-                 "         \"<input type='hidden' name='auth[driver]' value='pgsql'>\" .\n" +
-                 "         \"<input type='hidden' name='auth[server]' value='127.0.0.1'>\" .\n" +
-                 "         \"<input type='hidden' name='auth[username]' value='postgres'>\" .\n" +
-                 "         \"<input type='hidden' name='auth[password]' value='postgres'>\" .\n" +
-                 "         \"<input type='hidden' name='auth[db]' value='postgres'>\" .\n" +
-                 "         \"</form></div></body></html>\";\n" +
-                "    exit;\n" +
-                "}\n" +
-                "require 'adminer-base.php';";
-            File.WriteAllText(adminerPath, adminerPHP);
-            
-            ExtractResourceToFile("DesktopServerManagerGo.exe", Path.Combine(rootPath, "DesktopServerManagerGo.exe"));
-            ExtractResourceToFile("index.html", Path.Combine(rootPath, "www", "index.html"));
-            ExtractResourceToFile("app_logo.png", Path.Combine(rootPath, "www", "app_logo.png"));
-            ExtractResourceToFile("favicon.ico", Path.Combine(rootPath, "www", "favicon.ico"));
-            ExtractResourceToFile(".rr.yaml", Path.Combine(rootPath, ".rr.yaml"));
-            ExtractResourceToFile("worker.php", Path.Combine(rootPath, "worker.php"));
+            await ExtractResourceToFileAsync("DesktopServerManagerGo.exe", Path.Combine(rootPath, "DesktopServerManagerGo.exe"));
+            await ExtractResourceToFileAsync("index.html", Path.Combine(rootPath, "www", "index.html"));
+            await ExtractResourceToFileAsync("app_logo.png", Path.Combine(rootPath, "www", "app_logo.png"));
+            await ExtractResourceToFileAsync("favicon.ico", Path.Combine(rootPath, "www", "favicon.ico"));
+            await ExtractResourceToFileAsync(".rr.yaml", Path.Combine(rootPath, ".rr.yaml"));
+            await ExtractResourceToFileAsync("worker.php", Path.Combine(rootPath, "worker.php"));
 
-            ExtractResourceToFile("openssl.exe", Path.Combine(rootPath, "openssl", "openssl.exe"));
-            ExtractResourceToFile("libcrypto-3-x64.dll", Path.Combine(rootPath, "openssl", "libcrypto-3-x64.dll"));
-            ExtractResourceToFile("libssl-3-x64.dll", Path.Combine(rootPath, "openssl", "libssl-3-x64.dll"));
+            await ExtractResourceToFileAsync("openssl.exe", Path.Combine(rootPath, "openssl", "openssl.exe"));
+            await ExtractResourceToFileAsync("libcrypto-3-x64.dll", Path.Combine(rootPath, "openssl", "libcrypto-3-x64.dll"));
+            await ExtractResourceToFileAsync("libssl-3-x64.dll", Path.Combine(rootPath, "openssl", "libssl-3-x64.dll"));
             
             // Move any leaked PHP files to php84 if they exist in root (Safety measure)
             string[] leakedFiles = { "php.exe", "php8.dll", "php8ts.dll", "php-cgi.exe" };
@@ -222,15 +201,26 @@ public partial class MainForm : Form
 
             UpdateStatus("Registering Uninstaller...", 98);
             string uninstallerPath = Path.Combine(rootPath, "Uninstaller.exe");
-            File.Copy(Application.ExecutablePath, uninstallerPath, true);
-            RegisterUninstaller(rootPath, uninstallerPath);
+            await RetryAction(async () => {
+                await Task.Run(() => File.Copy(Application.ExecutablePath, uninstallerPath, true));
+            });
+            await RegisterUninstallerAsync(rootPath, uninstallerPath);
 
-            // Create Start Menu Shortcut
-            UpdateStatus("Creating Start Menu Shortcut...", 99);
-            CreateShortcut(Path.Combine(rootPath, "DesktopServerManagerGo.exe"), "Monrak Manager Go!", "Launch Monrak Desktop Server Go!");
+            // Create Shortcuts
+            UpdateStatus("Creating Shortcuts...", 99);
+            string managerExe = Path.Combine(rootPath, "DesktopServerManagerGo.exe");
+            
+            // 1. Start Menu
+            CreateShortcut(managerExe, "Monrak Manager Go!", "Launch Monrak Desktop Server Go!", Environment.GetFolderPath(Environment.SpecialFolder.Programs));
+            
+            // 2. Desktop
+            CreateShortcut(managerExe, "Monrak Manager Go!", "Launch Monrak Desktop Server Go!", Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
 
             UpdateStatus("Completed successfully!", 100);
             Log("SUCCESS: Monrak Desktop Server Go! is ready.");
+
+            // Sequential Onboarding: MariaDB stays empty, PostgreSQL set to trust by default
+            await ApplyDatabaseSecurity(rootPath, "");
 
             MessageBox.Show("Installation Complete!\n\nMonrak Desktop Server Go! will now start.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             
@@ -255,18 +245,26 @@ public partial class MainForm : Form
 
     private void KillRunningProcesses()
     {
-        string[] procs = { "DesktopServerManagerGo", "rr", "mariadbd", "mysqld", "postgres" };
+        string[] procs = { 
+            "DesktopServerManagerGo", "DesktopServerManager", "DesktopServerManagerPro",
+            "rr", "mariadbd", "mysqld", "postgres", "pg_ctl", "php-cgi", "pgAdmin4", 
+            "mysql", "mariadb", "psql", "Standard.exe"
+        };
         foreach (var pName in procs)
         {
-            foreach (var p in Process.GetProcessesByName(pName))
+            try
             {
-                try 
-                { 
-                    Log($"Terminating process: {pName}...");
-                    p.Kill(); 
-                    p.WaitForExit(2000); 
-                } catch { }
+                var runningProcs = Process.GetProcessesByName(pName);
+                if (runningProcs.Length > 0)
+                {
+                    Log($"Terminating {runningProcs.Length} instance(s) of: {pName}...");
+                    foreach (var p in runningProcs)
+                    {
+                        try { p.Kill(); p.WaitForExit(3000); } catch { }
+                    }
+                }
             }
+            catch { }
         }
     }
 
@@ -283,13 +281,49 @@ public partial class MainForm : Form
             // Cleanup target directory if not the root path (to avoid unintended deletions)
             if (targetDir.TrimEnd('\\', '/') != root.TrimEnd('\\', '/') && Directory.Exists(targetDir))
             {
-                Log($"Cleaning up existing {name} folder for fresh installation...");
-                try { Directory.Delete(targetDir, true); } catch { }
+                Log($"Cleaning up existing {name} folder...");
+                for (int i = 0; i < 3; i++)
+                {
+                    try 
+                    { 
+                        Directory.Delete(targetDir, true); 
+                        break; 
+                    } 
+                    catch (Exception ex)
+                    {
+                        if (i == 2) Log($"Warning: Could not clean folder {targetDir}: {ex.Message}");
+                        await Task.Delay(1000); 
+                    }
+                }
             }
+            
             if (!Directory.Exists(targetDir)) Directory.CreateDirectory(targetDir);
             
             Log($"Extracting {name} to {targetDir}...");
-            await Task.Run(() => ZipFile.ExtractToDirectory(tempZip, targetDir, true));
+            
+            bool extracted = false;
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    await Task.Run(() => ZipFile.ExtractToDirectory(tempZip, targetDir, true));
+                    extracted = true;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Log($"Extraction attempt {i+1} failed: {ex.Message}");
+                    if (i < 2) 
+                    {
+                        Log("Retrying in 2 seconds... Ensuring processes are killed.");
+                        KillRunningProcesses(); // More aggressive kill
+                        await Task.Delay(2000);
+                    }
+                    else throw; // Fail on last attempt
+                }
+            }
+
+            if (!extracted) throw new Exception($"Failed to extract {name} after multiple attempts.");
 
             // Smart Flattening Logic
             if (!string.IsNullOrEmpty(expectedBinary))
@@ -327,7 +361,9 @@ public partial class MainForm : Form
                            // Move contents using recursive merge helper
                            MoveDirectory(container.FullName, targetDir);
                            
-                           Directory.Delete(container.FullName, true);
+                           await RetryAction(async () => {
+                               await Task.Run(() => Directory.Delete(container.FullName, true));
+                           });
                            Log($"Structure corrected for {name}.");
                        }
                    }
@@ -339,7 +375,25 @@ public partial class MainForm : Form
         }
         finally
         {
-            if (File.Exists(tempZip)) File.Delete(tempZip);
+            if (File.Exists(tempZip)) try { File.Delete(tempZip); } catch { }
+        }
+    }
+
+    private async Task RetryAction(Func<Task> action, int maxRetries = 5, int delayMs = 1000)
+    {
+        for (int i = 0; i < maxRetries; i++)
+        {
+            try
+            {
+                await action();
+                return;
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+                if (i == maxRetries - 1) throw;
+                Log($"Access/IO error. Retrying in {delayMs}ms... (Attempt {i + 1}/{maxRetries})");
+                await Task.Delay(delayMs);
+            }
         }
     }
 
@@ -353,8 +407,22 @@ public partial class MainForm : Form
         foreach (var file in Directory.GetFiles(source))
         {
             string dest = Path.Combine(target, Path.GetFileName(file));
-            if (File.Exists(dest)) File.Delete(dest);
-            File.Move(file, dest);
+            
+            // Retry Delete and Move
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    if (File.Exists(dest)) File.Delete(dest);
+                    File.Move(file, dest);
+                    break;
+                }
+                catch (Exception ex) when (i < 4 && (ex is IOException || ex is UnauthorizedAccessException))
+                {
+                    Log($"Retry moving file {Path.GetFileName(file)} ({i+1}/5)...");
+                    System.Threading.Thread.Sleep(1000);
+                }
+            }
         }
 
         foreach (var dir in Directory.GetDirectories(source))
@@ -367,14 +435,12 @@ public partial class MainForm : Form
     private void ExtractResourceToFile(string resourceName, string destPath)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        // Try logical name first
         string fullResourceName = $"DesktopServerSetupGo.Resources.{resourceName}";
         
         using (Stream? stream = assembly.GetManifestResourceStream(fullResourceName))
         {
             if (stream == null) 
             {
-                // Fallback: Try finding it by suffix
                 var allResources = assembly.GetManifestResourceNames();
                 var match = allResources.FirstOrDefault(r => r.EndsWith(resourceName));
                 
@@ -390,32 +456,36 @@ public partial class MainForm : Form
                     }
                     return;
                 }
-
-                Log($"Error: Resource '{resourceName}' not found. Available: {string.Join(", ", allResources)}");
-                throw new Exception($"Resource '{resourceName}' not found in bundle.");
+                throw new Exception($"Resource '{resourceName}' not found.");
             }
 
-            using (FileStream fs = new FileStream(destPath, FileMode.Create))
+            using (FileStream fs = new FileStream(destPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 stream.CopyTo(fs);
             }
         }
     }
 
-    private void CreateShortcut(string targetPath, string shortcutName, string description)
+    private async Task ExtractResourceToFileAsync(string resourceName, string destPath)
+    {
+        await RetryAction(async () => {
+            await Task.Run(() => ExtractResourceToFile(resourceName, destPath));
+        });
+    }
+
+    private void CreateShortcut(string targetPath, string shortcutName, string description, string parentFolder)
     {
         try
         {
-            Log($"Creating Start Menu shortcut: {shortcutName}...");
-            string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
-            string appStartMenuPath = Path.Combine(startMenuPath, "Monrak Net");
-            
-            if (!Directory.Exists(appStartMenuPath))
+            string appFolder = parentFolder;
+            if (parentFolder == Environment.GetFolderPath(Environment.SpecialFolder.Programs))
             {
-                Directory.CreateDirectory(appStartMenuPath);
+                appFolder = Path.Combine(parentFolder, "Monrak Net");
+                if (!Directory.Exists(appFolder)) Directory.CreateDirectory(appFolder);
             }
 
-            string shortcutLocation = Path.Combine(appStartMenuPath, shortcutName + ".lnk");
+            Log($"Creating shortcut: {shortcutName} in {appFolder}...");
+            string shortcutLocation = Path.Combine(appFolder, shortcutName + ".lnk");
             
             Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
             if (shellType != null)
@@ -437,6 +507,13 @@ public partial class MainForm : Form
         }
     }
 
+    private async Task RegisterUninstallerAsync(string installPath, string uninstallerPath)
+    {
+        await RetryAction(async () => {
+            await Task.Run(() => RegisterUninstaller(installPath, uninstallerPath));
+        });
+    }
+
     private void RegisterUninstaller(string installPath, string uninstallerPath)
     {
         try
@@ -445,19 +522,23 @@ public partial class MainForm : Form
             using (var key = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall\DesktopServerGo"))
             {
                 key.SetValue("DisplayName", "Monrak Desktop Server Go!");
-                key.SetValue("DisplayVersion", "1.0.0");
+                key.SetValue("DisplayVersion", "1.0.1");
                 key.SetValue("Publisher", "Monrak Net Co., Ltd.");
                 key.SetValue("UninstallString", $"\"{uninstallerPath}\" /uninstall");
                 key.SetValue("DisplayIcon", uninstallerPath);
                 key.SetValue("InstallLocation", installPath);
+                key.SetValue("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
+                key.SetValue("EstimatedSize", 850 * 1024); // Approx 850MB
+                key.SetValue("URLInfoAbout", "https://monrak.net");
+                key.SetValue("HelpLink", "https://monrak.net/support");
                 key.SetValue("NoModify", 1);
                 key.SetValue("NoRepair", 1);
             }
         }
-        catch (Exception ex) { Log($"Registry failed: {ex.Message}"); }
+        catch (Exception ex) { Log($"Registry failed: {ex.Message}"); throw; } // Throw to trigger retry
     }
 
-    private void RunUninstall()
+    private async Task RunUninstall()
     {
         try
         {
@@ -470,14 +551,9 @@ public partial class MainForm : Form
             }
 
             // 1. Kill Processes
-            string[] procs = { "MonrakManagerGo", "DesktopServerManagerGo", "rr", "mariadbd", "mysqld", "postgres" };
-            foreach (var pName in procs)
-            {
-                foreach (var p in Process.GetProcessesByName(pName))
-                {
-                    try { p.Kill(); p.WaitForExit(1000); } catch { }
-                }
-            }
+            KillRunningProcesses();
+            // Wait a bit more for OS to release locks
+            System.Threading.Thread.Sleep(2000);
 
             // 2. Remove Registry
             try
@@ -486,14 +562,20 @@ public partial class MainForm : Form
             }
             catch { }
 
-            // 3. Remove Shortcut
+            // 3. Remove Shortcuts
             try
             {
+                // Start Menu
                 string startMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
                 string lnkPath = Path.Combine(startMenuPath, "Monrak Net", "Monrak Manager Go!.lnk");
                 if (File.Exists(lnkPath)) File.Delete(lnkPath);
                 
-                // Cleanup empty directory if no other versions exist
+                // Desktop
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string desktopLnk = Path.Combine(desktopPath, "Monrak Manager Go!.lnk");
+                if (File.Exists(desktopLnk)) File.Delete(desktopLnk);
+
+                // Cleanup empty directory in Start Menu
                 string appStartMenuPath = Path.Combine(startMenuPath, "Monrak Net");
                 if (Directory.Exists(appStartMenuPath) && !Directory.EnumerateFileSystemEntries(appStartMenuPath).Any())
                 {
@@ -508,12 +590,19 @@ public partial class MainForm : Form
                 string tempDir = Path.GetTempPath();
                 string batchFile = Path.Combine(tempDir, "monrak_go_cleanup.bat");
                 
-                File.WriteAllText(batchFile, $@"
+                await RetryAction(async () => {
+                    await Task.Run(() => File.WriteAllText(batchFile, $@"
 @echo off
-timeout /t 2 /nobreak >nul
+timeout /t 3 /nobreak >nul
+:retry
 rmdir /s /q ""{root}""
+if exist ""{root}"" (
+    timeout /t 2 /nobreak >nul
+    goto retry
+)
 del ""%~f0""
-");
+"));
+                });
                 
                 Process.Start(new ProcessStartInfo(batchFile) { CreateNoWindow = true, UseShellExecute = true, WindowStyle = ProcessWindowStyle.Hidden });
             }
@@ -934,6 +1023,100 @@ plugin-dir={Path.Combine(mariaRoot, "lib", "plugin").Replace("\\", "/")}
         {
             Log($"Warning: Composer dependency installation failed: {ex.Message}");
             Log("Ensure internet connection is available or vendor folder is pre-bundled.");
+        }
+    }
+
+    private async Task ApplyDatabaseSecurity(string root, string password)
+    {
+        await Task.Yield();
+        try
+        {
+            Log("Applying initial database security...");
+            UpdateStatus("Configuring Security...", 99);
+
+            // 1. MariaDB Password
+            string mariaBin = Path.Combine(root, "mariadb", "bin", "mariadbd.exe");
+            if (File.Exists(mariaBin))
+            {
+                Log("Applying MariaDB security (Targeting Empty Password for PMA)...");
+                var psiMaria = new ProcessStartInfo(mariaBin, $"--defaults-file=\"../my.ini\" --skip-networking --bootstrap")
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    WorkingDirectory = Path.GetDirectoryName(mariaBin),
+                    RedirectStandardInput = true
+                };
+
+                using (var proc = Process.Start(psiMaria))
+                {
+                    if (proc != null)
+                    {
+                        proc.StandardInput.WriteLine("ALTER USER 'root'@'localhost' IDENTIFIED BY '';");
+                        proc.StandardInput.WriteLine("FLUSH PRIVILEGES;");
+                        proc.StandardInput.Close();
+                        proc.WaitForExit(10000);
+                    }
+                }
+            }
+
+            // 2. PostgreSQL Password
+            string pgCtl = Path.Combine(root, "postgres", "bin", "pg_ctl.exe");
+            string dataDir = Path.Combine(root, "postgres", "data");
+
+            if (File.Exists(pgCtl) && Directory.Exists(dataDir))
+            {
+                Log("Applying PostgreSQL security...");
+                Process.Start(new ProcessStartInfo(pgCtl, $"start -D \"{dataDir}\" -w") { CreateNoWindow = true, UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(pgCtl) })?.WaitForExit(15000);
+
+                string psql = Path.Combine(root, "postgres", "bin", "psql.exe");
+                var psiPsql = new ProcessStartInfo(psql, $"-U postgres -c \"ALTER USER postgres WITH PASSWORD '{password}';\"")
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    WorkingDirectory = Path.GetDirectoryName(psql),
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                psiPsql.EnvironmentVariables["PGPASSWORD"] = ""; 
+
+                using (var psqlProc = Process.Start(psiPsql))
+                {
+                    if (psqlProc != null)
+                    {
+                        psqlProc.WaitForExit(10000);
+                    }
+                }
+
+                Process.Start(new ProcessStartInfo(pgCtl, $"stop -D \"{dataDir}\" -m fast") { CreateNoWindow = true, UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(pgCtl) })?.WaitForExit(10000);
+
+                string hbaPath = Path.Combine(dataDir, "pg_hba.conf");
+                if (File.Exists(hbaPath))
+                {
+                    Log("Enforcing trust authentication for PostgreSQL...");
+                    string hbaContent = File.ReadAllText(hbaPath);
+                    // Ensure all authentication methods are 'trust' for local connections
+                    hbaContent = hbaContent.Replace("scram-sha-256", "trust");
+                    hbaContent = hbaContent.Replace("md5", "trust");
+                    File.WriteAllText(hbaPath, hbaContent);
+                }
+            }
+
+            // 3. phpMyAdmin Config
+            string pmaConfig = Path.Combine(root, "www", "phpmyadmin", "config.inc.php");
+            if (File.Exists(pmaConfig))
+            {
+                Log("Updating phpMyAdmin credentials...");
+                string content = File.ReadAllText(pmaConfig);
+                content = content.Replace("password'] = '';", "password'] = '';"); 
+                content = content.Replace("AllowNoPassword'] = true;", "AllowNoPassword'] = true;"); 
+                File.WriteAllText(pmaConfig, content);
+            }
+            
+            Log("Database security applied successfully.");
+        }
+        catch (Exception ex)
+        {
+            Log($"Warning: Could not apply database security automatically: {ex.Message}");
         }
     }
 }

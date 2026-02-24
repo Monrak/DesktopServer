@@ -25,6 +25,7 @@ partial class MainForm
         menuExit = new ToolStripMenuItem();
         pnlSidebar = new Panel();
         grpSSL = new GroupBox();
+        btnSetPassword = new Button();
         btnTrustCert = new Button();
         chkEnableSSL = new CheckBox();
         chkRunOnStartup = new CheckBox();
@@ -140,6 +141,7 @@ partial class MainForm
         // 
         // grpSSL
         // 
+        grpSSL.Controls.Add(btnSetPassword);
         grpSSL.Controls.Add(btnTrustCert);
         grpSSL.Controls.Add(chkEnableSSL);
         grpSSL.Controls.Add(chkRunOnStartup);
@@ -147,10 +149,26 @@ partial class MainForm
         grpSSL.ForeColor = Color.White;
         grpSSL.Location = new Point(10, 480);
         grpSSL.Name = "grpSSL";
-        grpSSL.Size = new Size(385, 280);
+        grpSSL.Size = new Size(385, 380);
         grpSSL.TabIndex = 4;
         grpSSL.TabStop = false;
-        grpSSL.Text = "System Configuration";
+        grpSSL.Text = "Security & SSL";
+        // 
+        // btnSetPassword
+        // 
+        btnSetPassword.BackColor = Color.FromArgb(203, 166, 247);
+        btnSetPassword.FlatAppearance.BorderSize = 0;
+        btnSetPassword.FlatAppearance.MouseDownBackColor = Color.FromArgb(183, 146, 227);
+        btnSetPassword.FlatAppearance.MouseOverBackColor = Color.FromArgb(223, 186, 255);
+        btnSetPassword.FlatStyle = FlatStyle.Flat;
+        btnSetPassword.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+        btnSetPassword.ForeColor = Color.FromArgb(17, 17, 27);
+        btnSetPassword.Location = new Point(20, 269);
+        btnSetPassword.Name = "btnSetPassword";
+        btnSetPassword.Size = new Size(345, 85);
+        btnSetPassword.TabIndex = 3;
+        btnSetPassword.Text = "SET DB PASSWORD";
+        btnSetPassword.UseVisualStyleBackColor = false;
         // 
         // btnTrustCert
         // 
@@ -161,7 +179,7 @@ partial class MainForm
         btnTrustCert.FlatStyle = FlatStyle.Flat;
         btnTrustCert.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
         btnTrustCert.ForeColor = Color.White;
-        btnTrustCert.Location = new Point(20, 160);
+        btnTrustCert.Location = new Point(20, 161);
         btnTrustCert.Name = "btnTrustCert";
         btnTrustCert.Size = new Size(345, 85);
         btnTrustCert.TabIndex = 1;
@@ -604,7 +622,7 @@ partial class MainForm
         btnOpenAdminer.Name = "btnOpenAdminer";
         btnOpenAdminer.Size = new Size(353, 50);
         btnOpenAdminer.TabIndex = 3;
-        btnOpenAdminer.Text = "OPEN ADMINER";
+        btnOpenAdminer.Text = "OPEN PGADMIN";
         btnOpenAdminer.UseVisualStyleBackColor = false;
         // 
         // cardPHP
@@ -852,4 +870,5 @@ partial class MainForm
     private Button btnLogMaria;
     private Button btnLogPostgres;
     private GroupBox grpSSL;
+    private Button btnSetPassword;
 }

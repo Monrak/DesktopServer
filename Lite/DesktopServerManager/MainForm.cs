@@ -137,10 +137,13 @@ public partial class MainForm : Form
             string protocol = chkEnableSSL.Checked ? "https" : "http";
             Process.Start(new ProcessStartInfo($"{protocol}://localhost") { UseShellExecute = true });
         };
-        btnOpenPMA.Click += (s, e) => {
+        btnOpenPMA.Click += (s, e) =>
+        {
             string protocol = chkEnableSSL.Checked ? "https" : "http";
             Process.Start(new ProcessStartInfo($"{protocol}://localhost/phpmyadmin") { UseShellExecute = true });
         };
+        // btnDatabaseSecurity.Click += async (s, e) => await SetDatabasePassword();
+        btnDatabaseSecurity.Visible = false;
 
         // Config & Logs
         btnEditApacheConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"apache24\conf\httpd.conf"));
@@ -148,7 +151,33 @@ public partial class MainForm : Form
         btnEditMySQLConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"mysql80\my.ini"));
         btnEditPHPConfig.Click += (s, e) => OpenFileWithNotepad(Path.Combine(rootPath, @"php74\php.ini"));
         btnOpenMySQLLog.Click += (s, e) => OpenMySQLLog();
+
+        aboutUsToolStripMenuItem.Click += (s, e) => Process.Start(new ProcessStartInfo("https://monrak.net") { UseShellExecute = true });
+        chkStartWithWindows.CheckedChanged += ChkStartWithWindows_CheckedChanged;
     }
+
+    private void ChkStartWithWindows_CheckedChanged(object? sender, EventArgs e)
+    {
+        try
+        {
+            string runKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+            using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(runKey, true))
+            {
+                if (key != null)
+                {
+                    if (chkStartWithWindows.Checked)
+                        key.SetValue("MonrakDesktopServerLite", $"\"{Application.ExecutablePath}\" --autostart");
+                    else
+                        key.DeleteValue("MonrakDesktopServerLite", false);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log($"Failed to update startup registry: {ex.Message}");
+        }
+    }
+
 
     private void OpenMySQLLog()
     {
@@ -172,7 +201,7 @@ public partial class MainForm : Form
         if (File.Exists(path))
             Process.Start("notepad.exe", path);
         else
-            MessageBox.Show($"File not found: {path}");
+            Log($"File not found: {path}");
     }
 
     private void OpenFolder(string path)
