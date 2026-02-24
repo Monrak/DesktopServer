@@ -33,7 +33,7 @@ We believe that professional development environments should be fast, reliable, 
 *   **Unified Stack**: Pre-configured Apache 2.4, MariaDB 11, and modern PHP runtimes.
 *   **Go! Edition Engine**: Integrated **RoadRunner** high-performance PHP orchestrator for sub-5ms response times.
 *   **Database Excellence**: Professional support for MariaDB 11, MySQL 8.0, and **PostgreSQL 17 (AI-Ready)**.
-*   **One-Click SSL**: Built-in Automated Certificate Authority (CA) and SSL/HTTPS management with SAN support.
+*   **Native Local SSL**: Built-in Automated Certificate Authority (CA) and SSL/HTTPS management with SAN support—get green locks on `localhost` instantly.
 *   **Isolated Environments**: Prevents system-wide path conflicts with smart process isolation.
 *   **Real-time Monitoring**: Integrated dashboard for CPU and RAM performance tracking (Go! Edition).
 *   **Premium Management**: Custom .NET 9 management UI with system tray integration and live log viewers.
